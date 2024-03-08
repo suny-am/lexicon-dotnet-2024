@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = main_menu
-build_property.ProjectDir = C:\Users\visua\Projects\csharp\main-menu\main-menu\
+build_property.ProjectDir = /home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
