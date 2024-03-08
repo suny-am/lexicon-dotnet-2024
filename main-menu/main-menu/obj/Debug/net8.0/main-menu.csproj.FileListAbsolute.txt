@@ -1,0 +1,15 @@
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/bin/Debug/net8.0/main-menu
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/bin/Debug/net8.0/main-menu.deps.json
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/bin/Debug/net8.0/main-menu.runtimeconfig.json
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/bin/Debug/net8.0/main-menu.dll
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/bin/Debug/net8.0/main-menu.pdb
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.AssemblyInfoInputs.cache
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.AssemblyInfo.cs
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.csproj.CoreCompileInputs.cache
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.sourcelink.json
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.dll
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/refint/main-menu.dll
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.pdb
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/main-menu.genruntimeconfig.cache
+/mnt/c/Users/visua/Projects/csharp/main-menu/main-menu/obj/Debug/net8.0/ref/main-menu.dll
