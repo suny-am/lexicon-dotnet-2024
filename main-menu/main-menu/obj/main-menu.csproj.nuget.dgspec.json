@@ -1,44 +1,41 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\visua\\Projects\\csharp\\main-menu\\main-menu\\main-menu.csproj": {}
+    "/home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/main-menu.csproj": {}
   },
   "projects": {
-    "C:\\Users\\visua\\Projects\\csharp\\main-menu\\main-menu\\main-menu.csproj": {
+    "/home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/main-menu.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\visua\\Projects\\csharp\\main-menu\\main-menu\\main-menu.csproj",
+        "projectUniqueName": "/home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/main-menu.csproj",
         "projectName": "main-menu",
-        "projectPath": "C:\\Users\\visua\\Projects\\csharp\\main-menu\\main-menu\\main-menu.csproj",
-        "packagesPath": "C:\\Users\\visua\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\visua\\Projects\\csharp\\main-menu\\main-menu\\obj\\",
+        "projectPath": "/home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/main-menu.csproj",
+        "packagesPath": "/home/sunyam/.nuget/packages/",
+        "outputPath": "/home/sunyam/Projects/csharp/lexicon/main-menu/main-menu/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\visua\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/sunyam/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/SuperIO.csproj": {
+                "projectPath": "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/SuperIO.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -60,7 +57,60 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/SuperIO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/SuperIO.csproj",
+        "projectName": "SuperIO",
+        "projectPath": "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/SuperIO.csproj",
+        "packagesPath": "/home/sunyam/.nuget/packages/",
+        "outputPath": "/home/sunyam/Projects/csharp/lexicon/utilities/SuperIO/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/sunyam/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,29 +1,29 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace IO
+namespace SuperConsole
 {
-    public sealed class Writer
+    public sealed class IO
     {
         private Dictionary<string, ConsoleColor>? textColors;
 
-        public Writer()
+        public IO()
         {
             TextColors = new Dictionary<string, ConsoleColor>()
             {
-                { "[default]", ConsoleColor.White },
-                { "[green]", ConsoleColor.Green },
-                { "[blue]", ConsoleColor.Blue },
-                { "[cyan]", ConsoleColor.Cyan },
-                { "[magenta]", ConsoleColor.Magenta },
-                { "[red]", ConsoleColor.Red },
-                { "[yellow]", ConsoleColor.Yellow },
-                { "[white]", ConsoleColor.White },
-                { "[black]", ConsoleColor.Black },
-                { "[gray]", ConsoleColor.Gray }
+                { "default", ConsoleColor.White },
+                { "green", ConsoleColor.Green },
+                { "blue", ConsoleColor.Blue },
+                { "cyan", ConsoleColor.Cyan },
+                { "magenta", ConsoleColor.Magenta },
+                { "red", ConsoleColor.Red },
+                { "yellow", ConsoleColor.Yellow },
+                { "white", ConsoleColor.White },
+                { "black", ConsoleColor.Black },
+                { "gray", ConsoleColor.Gray }
             };
         }
 
-        public Writer(Dictionary<string, ConsoleColor> colors)
+        public IO(Dictionary<string, ConsoleColor> colors)
         {
             TextColors = colors;
         }
@@ -49,28 +49,25 @@ namespace IO
             string text,
             bool? clear = false,
             bool? newline = false,
-            ConsoleColor? foreground = (ConsoleColor)15,
-            ConsoleColor? background = (ConsoleColor)0
+            string? foreground = "white",
+            string? background = null
         )
         {
-            if (clear is true)
-                Console.Clear();
+            if (clear is true) Console.Clear();
 
-            if (foreground is ConsoleColor fg)
+            Console.ForegroundColor = TextColors[foreground];
+            if (background is not null)
             {
-                Console.ForegroundColor = fg;
-            }
-            if (background is ConsoleColor bg)
-            {
-                Console.BackgroundColor = bg;
+                Console.BackgroundColor = TextColors[background];
             }
 
             Console.Write(text);
 
             if (newline is true)
             {
-                this.Write("\n");
+                Console.Write("\n");
             }
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -116,7 +113,9 @@ namespace IO
 
                         Match colorMatch = Regex.Match(str, colorMatchPattern);
 
-                        Console.ForegroundColor = TextColors[str];
+                        string color = Regex.Replace(str, @"[\[\]]", "");
+
+                        Console.ForegroundColor = TextColors[color];
                     }
                     else
                     {
@@ -128,6 +127,18 @@ namespace IO
                     }
                 }
             }
+        }
+
+        public void ClearAll()
+        {
+            Console.Clear();
+        }
+
+        public string ReadAndClear()
+        {
+            string input = Console.ReadLine();
+            Console.Clear();
+            return input;
         }
     }
 }
