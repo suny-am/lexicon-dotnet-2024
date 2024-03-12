@@ -40,5 +40,4 @@ internal class Student : Human
 
         return stats.ToString();
     }
-
 }

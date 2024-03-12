@@ -1,98 +1,79 @@
-﻿Console.Clear();
+﻿using SuperConsole;
+
+IO io = new();
+
+io.ClearAll();
 
 // Assignment 1.
-Console.ForegroundColor = ConsoleColor.Magenta;
-Console.WriteLine("Assignment 1:");
-Console.ResetColor();
+io.Write("Assignment 1:", foreground: "magenta", newline: true);
 
-Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Enter child name:");
-Console.ResetColor();
-
+io.Write("Enter child name:", foreground: "green", newline: true);
 string name = Console.ReadLine();
 
-Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Enter child age:");
-Console.ResetColor();
-
+io.Write("Enter child age:", foreground: "green", newline: true);
 int age = int.Parse(Console.ReadLine());
 
 try
 {
     Child child = new Child(name, age);
-    Console.WriteLine(child);
+    io.Write($"{child}", newline: true);
 }
 catch (ArgumentException ae)
 {
-    Console.WriteLine(ae.Message);
+    io.Write(ae.Message, foreground: "red", newline: true);
 }
 
 // Assignment 2.
 try
 {
-    Console.ForegroundColor = ConsoleColor.Magenta;
-    Console.WriteLine("Assignment 2:");
-    Console.ResetColor();
+    io.Write("Assignment 2:", foreground: "magenta", newline: true);
 
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Enter Author first name:");
-    Console.ResetColor();
+    io.Write("Enter Author first name:", foreground: "green", newline: true);
     string authorFirstName = Console.ReadLine();
 
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Enter Author last name:");
-    Console.ResetColor();
+    io.Write("Enter Author last name:", foreground: "green", newline: true);
     string authorLastName = Console.ReadLine();
 
     Author author = new(authorFirstName, authorLastName);
 
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Enter book title:");
-    Console.ResetColor();
+    io.Write("Enter Book title:", foreground: "green", newline: true);
     string title = Console.ReadLine();
 
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Enter book price:");
+    io.Write("Enter Book Price:", foreground: "green", newline: true);
     decimal price = decimal.Parse(Console.ReadLine());
-    Console.ResetColor();
 
     Book book = new Book(author, title, price);
     GoldenEditionBook goldenEditionBook = new GoldenEditionBook(author, title, price);
-    Console.WriteLine(book + Environment.NewLine);
-    Console.WriteLine(goldenEditionBook);
+
+    io.WriteEncoded($"[blue]{book}[blue]\n[yellow]{goldenEditionBook}[yellow]");
 }
 catch (ArgumentException ae)
 {
-    Console.WriteLine(ae.Message);
+    io.Write(ae.Message, foreground: "red", newline: true);
 }
 
-
 // Assignment 3.
-Console.ForegroundColor = ConsoleColor.Magenta;
-Console.WriteLine("Assignment 3:");
-Console.ResetColor();
+io.Write("Assignment 3:", foreground: "magenta", newline: true);
 
-Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Provide student info (first name, last name, faculty number)");
-Console.ResetColor();
+io.Write("Provide student info (first name, last name, faculty number)", foreground: "green", newline: true);
 string[] studentInput = Console.ReadLine().Split(" ");
-Console.Clear();
+io.ClearAll();
 
 Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Provide worker info (first name, last name, salary per week, work hours per day)");
-Console.ResetColor();
+io.Write("Provide worker info (first name, last name, salary per week, work hours per day)", foreground: "green", newline: true);
 var workerInput = Console.ReadLine().Split(" ");
 
 Student student = new(studentInput[0], studentInput[1], int.Parse(studentInput[2]));
 Worker worker = new(workerInput[0], workerInput[1], decimal.Parse(workerInput[2]), decimal.Parse(workerInput[3]));
 
-Console.WriteLine(student);
-Console.WriteLine(worker);
+io.ClearAll();
+
+io.Write($"Student:\n{student}", newline: true);
+io.Write($"Worker:\n{worker}", newline: true);
 
 // Assignment 4.
-Console.ForegroundColor = ConsoleColor.Magenta;
-Console.WriteLine("Assignment 4:");
-Console.ResetColor();
+io.Write("Assignment 4:", foreground: "magenta", newline: true);
+
 
 List<Song> songs = [];
 
@@ -102,9 +83,7 @@ for (int i = 0; i < songCount; i++)
 {
     try
     {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Please provide a song (format: 'Artist;SongName;MM:SS'):");
-        Console.ResetColor();
+        io.Write("Please provide a song (format: 'Artist;SongName;MM:SS'):", foreground: "green", newline: true);
         string[] songData = Console.ReadLine().Split(";");
 
         string artist = songData[0];
@@ -114,14 +93,12 @@ for (int i = 0; i < songCount; i++)
         int durationSeconds = int.Parse(songDuration[1]);
 
         Song song = new(artist, songTitle, durationMinutes, durationSeconds);
-        Console.WriteLine("Song added");
+        io.Write("Song added", foreground: "green", newline: true);
         songs.Add(song);
     }
     catch (InvalidSongException exception)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(exception.Message);
-        Console.ResetColor();
+        io.Write(exception.Message, foreground: "red", newline: true);
     }
 }
 
@@ -129,8 +106,8 @@ TimeSpan playlistLength = new(0, 0, 0);
 
 songs.ForEach((song) =>
 {
-    Console.WriteLine(song.SongDuration);
+    io.WriteEncoded($"[green]Song length:[green] {song.SongDuration}\n");
     playlistLength += song.SongDuration;
 });
 
-Console.WriteLine("Playlist length: " + playlistLength);
+io.WriteEncoded("[green]Playlist length:[green] " + playlistLength);

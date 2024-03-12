@@ -1,3 +1,5 @@
+using System.Text;
+
 public class Child : Person
 {
 
@@ -21,5 +23,10 @@ public class Child : Person
             }
         }
     }
-
+    public override string ToString()
+    {
+        StringBuilder stringBuilder = new();
+        stringBuilder.Append(string.Format("Name: {0}, Age: {1}", Name, Age));
+        return stringBuilder.ToString();
+    }
 }
