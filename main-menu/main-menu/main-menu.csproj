@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\utilities\SuperConsole\SuperConsole.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

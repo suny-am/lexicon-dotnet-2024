@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using SuperConsole;
 
 namespace MainMenu
@@ -110,10 +109,12 @@ namespace MainMenu
                 io.Write($"Alright! {visitorCount} of you! We'll proceed with taking the age of each person.", foreground: "green", newline: true);
             }
 
-            string encodedText = @$"Please do note the special prices:
-children age bracket (ages {childRange.Start}-{childRange.End}): {(int)TicketPrices.childPrice}kr SEK.
-elderly age bracket (ages {elderlyRange.Start}-{elderlyRange.End}): {(int)TicketPrices.elderlyPrice}kr SEK.
-[magenta]People below 5 or over 100 can visit for free![magenta]";
+            string encodedText = "Please do note the special prices:\n" +
+                                  $"children age bracket (ages {childRange.Start}-{childRange.End}):" +
+                                  $"{(int)TicketPrices.childPrice}kr SEK.\n" +
+                                  $"elderly age bracket (ages {elderlyRange.Start}-{elderlyRange.End}):" +
+                                  $"{(int)TicketPrices.elderlyPrice}kr SEK.\n" +
+                                  "[magenta]People below 5 or over 100 can visit for free![magenta]";
 
             io.WriteEncoded(encodedText);
 
