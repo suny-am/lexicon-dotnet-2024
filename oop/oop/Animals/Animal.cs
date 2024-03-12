@@ -21,7 +21,12 @@ abstract internal class Animal
 
     abstract internal void DoSound();
 
-    internal Animal() { }
+    internal Animal()
+    {
+
+        Name = this.GetType().Name;
+
+    }
 
     internal virtual string Stats()
     {

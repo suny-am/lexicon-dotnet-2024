@@ -1,11 +1,14 @@
 ﻿using Errors;
+using SuperConsole;
 
-Console.Clear();
+IO io = new();
+
+io.ClearAll();
 
 // 3.1.1-4.
 
 /*
-Console.WriteLine("Asssignment 3.1.1-4");
+io.Write("\nAsssignment 3.1.1-4:\n", foreground: "cyan");
 
 try
 {
@@ -22,10 +25,7 @@ catch (ArgumentException)
 
 //  3.1.5.
 
-Console.WriteLine("\n");
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("Asssignment 3.1.5:\n");
-Console.ResetColor();
+io.Write("\nAsssignment 3.1.5:\n", foreground: "cyan");
 
 PersonHandler pHandler = new();
 
@@ -50,10 +50,7 @@ for (int i = 1; i <= 3; i++)
 
 // 3.2.1-10.
 
-Console.WriteLine("\n");
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("Asssignment 3.2.1-10:");
-Console.ResetColor();
+io.Write("\nAsssignment 3.2.1-10:\n", foreground: "cyan");
 
 List<UserError> userErrors = [];
 
@@ -91,14 +88,12 @@ for (int i = 0; i < 5; i++)
 
 foreach (UserError error in userErrors)
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine(error.UEMessage());
+    io.Write(error.UEMessage(), foreground: "red", newline: true);
 }
 
 //  3.4.1-7.
 
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("\nAsssignment 3.4.1-7:");
+io.Write("\nAsssignment 3.4.1-7:", foreground: "cyan");
 
 List<Animal> animals = [];
 
@@ -112,10 +107,7 @@ animals.Add(new Wolfman());
 
 animals.ForEach((animal) =>
 {
-    Console.Write("Species: ");
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.Write($"{animal.GetType()}\n");
-    Console.ResetColor();
+    io.WriteEncoded($"[green]Species:[green] \n{animal.GetType().Name}\n[green]Sound:[green]\n");
 
     if (animal is IPerson wolfMan)
     {
@@ -151,9 +143,8 @@ dogs.Add(new Horse());
 
 // 3.4.11-14
 
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("\nAsssignment 3.4.11-14:");
-Console.ResetColor();
+
+io.Write("\nAsssignment 3.4.11-14:\n", foreground: "cyan");
 
 animals.Add(new Pelican(true));
 animals.Add(new Flamingo(false));
@@ -172,19 +163,12 @@ Stats() will be available as long as it is implemented.
 
 animals.ForEach((animal) =>
 {
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"{animal.GetType()} stats:");
-    Console.ResetColor();
-    Console.WriteLine(animal.Stats() + "\n");
-
+    io.WriteEncoded($"{animal.GetType().Name} stats:[green]\n{animal.Stats()}[green]\n\n");
 });
-
 
 // 3.4.15-18
 
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("\nAsssignment 3.4.15-18:");
-Console.ResetColor();
+io.Write("\nAsssignment 3.4.15-18:", foreground: "cyan");
 
 /*
 Q:
@@ -201,6 +185,6 @@ animals.ForEach((animal) =>
 {
     if (animal is Dog dog)
     {
-        Console.WriteLine(dog.Fetch());
+        io.Write(dog.Fetch(), foreground: "magenta");
     }
 });
