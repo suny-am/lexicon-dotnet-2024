@@ -161,11 +161,12 @@ namespace SkalProj_Datastrukturer_Minne
              * Below you can see some inspirational code to begin working.
             */
 
+            io.ClearAll();
             bool running = true;
             List<string> theList = [];
-            io.WriteEncoded("Increment string list with [green]+<Word>.[green]\n" +
-                            "decrement list with [red]-<Word>[red].\n" +
-                            "(Exit with any other key).\n");
+            io.WriteEncoded($"Increment string list with [green]+<Word>.[green]{Environment.NewLine}" +
+                            $"decrement list with [red]-<Word>[red].{Environment.NewLine}" +
+                            $"[red](Exit with any other key).[red]{Environment.NewLine}");
 
             do
             {
@@ -189,6 +190,7 @@ namespace SkalProj_Datastrukturer_Minne
                         break;
                     default:
                         running = false;
+                        Main();
                         break;
                 }
             } while (running);
@@ -261,11 +263,34 @@ namespace SkalProj_Datastrukturer_Minne
              * to see how it behaves
             */
 
+            io.ClearAll();
             bool running = true;
+            Queue<string> customerQueue = new();
+
+            io.WriteEncoded($"Enqueue customer to queue with [green]+<CustomerName>.[green]{Environment.NewLine}" +
+                            $"Dequeue customer from queue with [red]-[red].{Environment.NewLine}" +
+                            $"[red](Exit with any other key).[red]{Environment.NewLine}");
             do
             {
+                string input = Console.ReadLine()!;
+                char op = input.First();
+                string customer = input[1..];
 
-                    
+                switch (op.ToString())
+                {
+                    case "+":
+                        customerQueue.Enqueue(customer);
+                        io.WriteEncoded($"[green]{customer}[green] enters the queue...{Environment.NewLine}");
+                        break;
+                    case "-":
+                        string dequeueCustomer = customerQueue.First();
+                        customerQueue.Dequeue();
+                        io.WriteEncoded($"[red]{dequeueCustomer}[red] expedited from the queue!{Environment.NewLine}");
+                        break;
+                    default:
+                        Main();
+                        break;
+                }
             }
             while (running);
         }
