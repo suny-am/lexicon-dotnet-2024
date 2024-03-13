@@ -546,7 +546,7 @@ namespace SkalProj_Datastrukturer_Minne
 
             bool running = true;
             io.ClearAll();
-            io.Write("Enter number N to calculate the Nth even number (enter any other key to exit):",
+            io.Write("Enter number N to calculate the Nth even number via recursion (enter any other key to exit):",
                    foreground: "green",
                    newline: true);
 
@@ -593,7 +593,7 @@ namespace SkalProj_Datastrukturer_Minne
                 io.WriteEncoded($"The [magenta]{numberSuffix}[magenta] even number " +
                                 $"is [cyan]{result}[cyan]!{Environment.NewLine}");
 
-                uint fibonacciNumber = FibonacciSequence(number);
+                uint fibonacciNumber = FibonacciRecursive(number);
 
                 io.WriteEncoded($"{Environment.NewLine}Here's a bonus! number [blue]{number}[blue] of the [red]Fibonacci sequence[red] is: " +
                          $"[yellow]{fibonacciNumber}[yellow]!{Environment.NewLine}");
@@ -610,21 +610,122 @@ namespace SkalProj_Datastrukturer_Minne
             return RecursiveEven(n - 1) + 2;
         }
 
-        static uint FibonacciSequence(uint n)
+
+        /*
+        The value of any given number in the fibonacci sequence, is the sum
+        of the previous two numbers
+
+        This one is a bite more waste ful than the iterative version below,
+        since more values are assigned to the stack as the recursions
+        progress.
+        */
+        static uint FibonacciRecursive(uint n)
         {
-            if (n <= 2)
+            if (n == 1)
+            {
+                return 0;
+            }
+            else if (n <= 3)
             {
                 return 1;
             }
 
-            return FibonacciSequence(n - 1) + FibonacciSequence(n - 2);
+            return FibonacciRecursive(n - 1) + FibonacciRecursive(n - 2);
         }
 
         static void Iteration()
         {
-            throw new NotImplementedException();
+            bool running = true;
+            io.ClearAll();
+            io.Write("Enter number N to calculate the Nth even number via iteration (enter any other key to exit):",
+                   foreground: "green",
+                   newline: true);
+
+            do
+            {
+                string input = Console.ReadLine()!;
+
+                string numberSuffix;
+
+                bool integerInput = uint.TryParse(input, out uint number);
+
+                if (!integerInput)
+                {
+                    running = false;
+                }
+
+                uint result = IterativeEven(number);
+
+                switch (number)
+                {
+                    case 1:
+                        {
+                            numberSuffix = "first";
+                            break;
+                        }
+                    case 2:
+                        {
+                            numberSuffix = "second";
+                            break;
+                        }
+                    case 3:
+                        {
+                            numberSuffix = "third";
+                            break;
+                        }
+                    default:
+                        {
+                            numberSuffix = $"{number}th";
+                            break;
+                        }
+                }
+
+                io.ClearAll();
+                io.WriteEncoded($"The [magenta]{numberSuffix}[magenta] even number " +
+                                $"is [cyan]{result}[cyan]!{Environment.NewLine}");
+
+                uint fibonacciNumber = FibonacciIterative(number);
+
+                io.WriteEncoded($"{Environment.NewLine}Here's a bonus! number [blue]{number}[blue] of the [red]Fibonacci sequence[red] is: " +
+                         $"[yellow]{fibonacciNumber}[yellow]!{Environment.NewLine}");
+
+            } while (running);
         }
 
+        static uint IterativeEven(uint n)
+        {
+            uint result = 2;
+            for (uint i = 0; i < n - 1; i++)
+            {
+                result += 2;
+            }
+            return result;
+        }
+
+        /*
+        The value of any given number in the fibonacci sequence, is the sum
+        of the previous two numbers
+        */
+
+        /* 
+        the iterative method is more effective since 
+        it does utilizes variables to store values inbetween
+        iterations.
+        */
+        static uint FibonacciIterative(uint n)
+        {
+            uint preprevious;
+            uint previous = 0;
+            uint current = 1;
+
+            for (uint i = 1; i < n; i++)
+            {
+                preprevious = previous;
+                previous = current;
+                current = preprevious + previous;
+            }
+            return current;
+        }
     }
 }
 
