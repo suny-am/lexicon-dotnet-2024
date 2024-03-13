@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using SuperConsole;
 
 /*
@@ -283,8 +285,7 @@ namespace SkalProj_Datastrukturer_Minne
                         io.WriteEncoded($"[green]{customer}[green] enters the queue...{Environment.NewLine}");
                         break;
                     case "-":
-                        string dequeueCustomer = customerQueue.First();
-                        customerQueue.Dequeue();
+                        string dequeueCustomer = customerQueue.Dequeue();
                         io.WriteEncoded($"[red]{dequeueCustomer}[red] expedited from the queue!{Environment.NewLine}");
                         break;
                     default:
@@ -306,11 +307,63 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineStack()
         {
             /*
-             * Loop this method until the user inputs something to exit to main menue.
+             * Loop this method until the user inputs something to exit to main menu.
              * Create a switch with cases to push or pop items
              * Make sure to look at the Stack after pushing and and poping to see how it behaves
             */
+
+            io.ClearAll();
+            bool running = true;
+            Stack<string> itemStack = new();
+
+            io.WriteEncoded($"Push customer to stack with [green]+<ItemName>.[green]{Environment.NewLine}" +
+                            $"pop customer from stack with [red]-[red].{Environment.NewLine}" +
+                            $"[red](Exit with any other key).[red]{Environment.NewLine}");
+            do
+            {
+                string input = Console.ReadLine()!;
+                char op = input.First();
+                string item = input[1..];
+
+                switch (op.ToString())
+                {
+                    case "+":
+                        itemStack.Push(item);
+                        io.WriteEncoded($"[green]{item}[green] pushed on stack!{Environment.NewLine}");
+                        break;
+                    case "-":
+                        string popItem = itemStack.Pop();
+                        string popItemReversed = ReverseText(popItem);
+                        io.WriteEncoded($"[red]{popItemReversed}[red] popped from stack!{Environment.NewLine}");
+                        break;
+                    default:
+                        Main();
+                        break;
+                }
+            }
+            while (running);
         }
+
+        static string ReverseText(string text)
+        {
+
+            Stack<string> charStack = new();
+
+            foreach (char c in text)
+            {
+                charStack.Push(c.ToString());
+            }
+
+            string reversedText = string.Join("", charStack.ToArray());
+
+            return reversedText;
+        }
+
+        /*
+        Q1:
+        Why is it preferential
+
+        */
 
         /*
         Assignment 4
@@ -328,4 +381,5 @@ namespace SkalProj_Datastrukturer_Minne
 
     }
 }
+
 
