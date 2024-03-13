@@ -86,8 +86,7 @@ Thus, returning "x.MyValue" results in an Integer of 4.
 
 namespace SkalProj_Datastrukturer_Minne
 {
-
-    class Program
+    partial class Program
     {
         readonly static IO io = new();
 
@@ -97,14 +96,13 @@ namespace SkalProj_Datastrukturer_Minne
         /// <param name="args"></param>
         static void Main()
         {
-
             while (true)
             {
                 Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
                     + "\n1. Examine a List"
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
-                    + "\n4. CheckParenthesis"
+                    + "\n4. Check Parentheses"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -128,7 +126,7 @@ namespace SkalProj_Datastrukturer_Minne
                         ExamineStack();
                         break;
                     case '4':
-                        CheckParanthesis();
+                        CheckParantheses();
                         break;
                     /*
                      * Extend the menu to include the recursive 
@@ -344,6 +342,12 @@ namespace SkalProj_Datastrukturer_Minne
             while (running);
         }
 
+        ///
+        /// <summary>
+        /// Method that returns the input string reversed via Stack propagation.
+        /// </summary>
+        ///
+
         static string ReverseText(string text)
         {
 
@@ -361,7 +365,12 @@ namespace SkalProj_Datastrukturer_Minne
 
         /*
         Q1:
-        Why is it preferential
+        Why is it preferential to use a Queue as opposed to a Stack in the above scenario?
+
+        A:
+        Since elements are propagated downwards in a Stack (i.e First In, Last Out principle)
+        the element that gets added first will be removed last via the default Pop() operation.
+        This does not reflect how a queue is handled.
 
         */
 
@@ -369,7 +378,7 @@ namespace SkalProj_Datastrukturer_Minne
         Assignment 4
         */
 
-        static void CheckParanthesis()
+        static void CheckParantheses()
         {
             /*
              * Use this method to check if the paranthesis in a string is Correct or incorrect.
@@ -377,9 +386,148 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
+            // setup
+            io.ClearAll();
+            bool running = true;
+
+            io.Write("Enter a sequence of parentheses (i.e. \"()\",\"[]\" or \"{}\") to validate:",
+                     foreground: "green",
+                     newline: true);
+
+            do
+            {
+                string input = Console.ReadLine()!;
+
+                char[] charArray = input.ToCharArray();
+
+                // Sequence cannot open with a closing parentheses
+                if (charArray[0] == ')' ||
+                    charArray[0] == ']' ||
+                    charArray[0] == '}')
+                {
+                    io.Write("invalid sequence!", foreground: "red", newline: true);
+                    return;
+                }
+
+                // validate input
+                bool validated = ValidateParentheses(charArray);
+
+                if (validated)
+                {
+                    io.Write("Valid sequence!", foreground: "green", newline: true);
+                }
+                else
+                {
+                    io.Write("Invalid sequence!", foreground: "red", newline: true);
+                }
+
+
+            } while (running);
         }
 
+        // helper method to check valid parantheses sequence
+        static bool ValidateParentheses(char[] parentheses)
+        {
+
+            /*
+            create a stack to use for runtime storage of 
+            incoming character valuesto be evaluated.
+            */
+            Stack<char> paranStack = new();
+
+            // establish valid characters.
+            char[] validCharList = ['(', ')', '[', ']', '{', '}'];
+
+            foreach (char p in parentheses)
+            {
+
+
+                // skip non-parenthesis characters
+                if (!validCharList.Contains(p))
+                {
+                    continue;
+                }
+
+                // always allow first char
+                if (paranStack.Count == 0)
+                {
+                    paranStack.Push(p);
+                    continue;
+                }
+
+                /*
+                subsequent characters of same value are OK
+                e.g. ( + ( + (
+                */
+                if (paranStack.First() == p)
+                {
+                    paranStack.Push(p);
+                }
+
+                // if not...
+                else
+                {
+                    /*
+                    check the incoming input value.
+                    there are three different scenarios to take
+                    into account, as there are three different
+                    types of parentheses enclosings; "()", "[]" and "{}"
+                    thus one can validate the compatability of the incoming
+                    value and the first value of the holding stack,
+                    and remove the matching value from the stack in order
+                    to clear out a "completed" set of parentheses.
+                    If all sets are cleared, the stack will end up empty.
+                    */
+                    switch (p)
+                    {
+                        case ')':
+                            {
+                                if (paranStack.First() == '(')
+                                {
+                                    paranStack.Pop();
+                                    break;
+                                }
+                                return false;
+                            }
+                        case ']':
+                            {
+                                if (paranStack.First() == '[')
+                                {
+                                    paranStack.Pop();
+                                    break;
+                                }
+                                return false;
+                            }
+                        case '}':
+                            {
+                                if (paranStack.First() == '{')
+                                {
+                                    paranStack.Pop();
+                                    break;
+                                }
+                                return false;
+                            }
+                        default:
+                            {
+                                paranStack.Push(p);
+                                break;
+                            }
+                    }
+                }
+            }
+
+            /*
+            if the above check is cleared; finish to see if the stack is exhausted as it should be.
+            */
+
+            if (paranStack.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
+
 
 
