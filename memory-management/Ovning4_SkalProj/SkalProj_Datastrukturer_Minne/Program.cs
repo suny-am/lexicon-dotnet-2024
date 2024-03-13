@@ -98,12 +98,14 @@ namespace SkalProj_Datastrukturer_Minne
         {
             while (true)
             {
-                Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
-                    + "\n1. Examine a List"
-                    + "\n2. Examine a Queue"
-                    + "\n3. Examine a Stack"
-                    + "\n4. Check Parentheses"
-                    + "\n0. Exit the application");
+                io.WriteEncoded("[magenta]Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice[magenta]"
+                    + "[green]\n1.[green] Examine a List"
+                    + "[green]\n2.[green] Examine a Queue"
+                    + "[green]\n3.[green] Examine a Stack"
+                    + "[green]\n4.[green] Check Parentheses"
+                    + "[green]\n5.[green] Recursion"
+                    + "[green]\n6.[green] Iteration"
+                    + $"[red]\n0. Exit the application[red]{Environment.NewLine}");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
                 {
@@ -128,6 +130,12 @@ namespace SkalProj_Datastrukturer_Minne
                     case '4':
                         CheckParantheses();
                         break;
+                    case '5':
+                        Recursion();
+                        break;
+                    case '6':
+                        Iteration();
+                        break;
                     /*
                      * Extend the menu to include the recursive 
                      * and iterative exercises.
@@ -141,6 +149,8 @@ namespace SkalProj_Datastrukturer_Minne
                 }
             }
         }
+
+
 
         /*
         Assignment 1 (Examine List)
@@ -526,6 +536,95 @@ namespace SkalProj_Datastrukturer_Minne
             }
             return false;
         }
+
+        /*
+        Assignment 5
+        */
+
+        static void Recursion()
+        {
+
+            bool running = true;
+            io.ClearAll();
+            io.Write("Enter number N to calculate the Nth even number (enter any other key to exit):",
+                   foreground: "green",
+                   newline: true);
+
+            do
+            {
+                string input = Console.ReadLine()!;
+
+                string numberSuffix;
+
+                bool integerInput = uint.TryParse(input, out uint number);
+
+                if (!integerInput)
+                {
+                    running = false;
+                }
+
+                uint result = RecursiveEven(number);
+
+                switch (number)
+                {
+                    case 1:
+                        {
+                            numberSuffix = "first";
+                            break;
+                        }
+                    case 2:
+                        {
+                            numberSuffix = "second";
+                            break;
+                        }
+                    case 3:
+                        {
+                            numberSuffix = "third";
+                            break;
+                        }
+                    default:
+                        {
+                            numberSuffix = $"{number}th";
+                            break;
+                        }
+                }
+
+                io.ClearAll();
+                io.WriteEncoded($"The [magenta]{numberSuffix}[magenta] even number " +
+                                $"is [cyan]{result}[cyan]!{Environment.NewLine}");
+
+                uint fibonacciNumber = FibonacciSequence(number);
+
+                io.WriteEncoded($"{Environment.NewLine}Here's a bonus! number [blue]{number}[blue] of the [red]Fibonacci sequence[red] is: " +
+                         $"[yellow]{fibonacciNumber}[yellow]!{Environment.NewLine}");
+
+            } while (running);
+        }
+
+        static uint RecursiveEven(uint n)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
+            return RecursiveEven(n - 1) + 2;
+        }
+
+        static uint FibonacciSequence(uint n)
+        {
+            if (n <= 2)
+            {
+                return 1;
+            }
+
+            return FibonacciSequence(n - 1) + FibonacciSequence(n - 2);
+        }
+
+        static void Iteration()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
 
