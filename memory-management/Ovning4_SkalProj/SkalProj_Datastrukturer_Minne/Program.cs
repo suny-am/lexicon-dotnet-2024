@@ -403,17 +403,16 @@ namespace SkalProj_Datastrukturer_Minne
             io.Write("Enter a sequence of parentheses (i.e. \"()\",\"[]\" or \"{}\") to validate:",
                      foreground: "green",
                      newline: true);
-
             do
             {
                 string input = Console.ReadLine()!;
 
                 char[] charArray = input.ToCharArray();
 
+                char[] filter = [')', ']', '}'];
+
                 // Sequence cannot open with a closing parentheses
-                if (charArray[0] == ')' ||
-                    charArray[0] == ']' ||
-                    charArray[0] == '}')
+                if (filter.Contains(charArray[0]))
                 {
                     io.Write("invalid sequence!", foreground: "red", newline: true);
                     return;
@@ -438,40 +437,18 @@ namespace SkalProj_Datastrukturer_Minne
         // helper method to check valid parantheses sequence
         static bool ValidateParentheses(char[] parentheses)
         {
-
             /*
             create a stack to use for runtime storage of 
             incoming character valuesto be evaluated.
             */
             Stack<char> paranStack = new();
 
-            // establish valid characters.
-            char[] validCharList = ['(', ')', '[', ']', '{', '}'];
-
             foreach (char p in parentheses)
             {
-
-
-                // skip non-parenthesis characters
-                if (!validCharList.Contains(p))
+                // handle edge cases
+                if (IsEdgeCase(paranStack, p))
                 {
                     continue;
-                }
-
-                // always allow first char
-                if (paranStack.Count == 0)
-                {
-                    paranStack.Push(p);
-                    continue;
-                }
-
-                /*
-                subsequent characters of same value are OK
-                e.g. ( + ( + (
-                */
-                if (paranStack.First() == p)
-                {
-                    paranStack.Push(p);
                 }
 
                 // if not...
@@ -488,41 +465,7 @@ namespace SkalProj_Datastrukturer_Minne
                     to clear out a "completed" set of parentheses.
                     If all sets are cleared, the stack will end up empty.
                     */
-                    switch (p)
-                    {
-                        case ')':
-                            {
-                                if (paranStack.First() == '(')
-                                {
-                                    paranStack.Pop();
-                                    break;
-                                }
-                                return false;
-                            }
-                        case ']':
-                            {
-                                if (paranStack.First() == '[')
-                                {
-                                    paranStack.Pop();
-                                    break;
-                                }
-                                return false;
-                            }
-                        case '}':
-                            {
-                                if (paranStack.First() == '{')
-                                {
-                                    paranStack.Pop();
-                                    break;
-                                }
-                                return false;
-                            }
-                        default:
-                            {
-                                paranStack.Push(p);
-                                break;
-                            }
-                    }
+                    ValidateParan(ref paranStack, p);
                 }
             }
 
@@ -535,6 +478,75 @@ namespace SkalProj_Datastrukturer_Minne
                 return true;
             }
             return false;
+        }
+
+        static bool IsEdgeCase(Stack<char> paranStack, char p)
+        {
+            bool isEdgeCase = false;
+
+            // establish valid characters.
+            char[] validCharList = ['(', ')', '[', ']', '{', '}'];
+
+            // skip non-parenthesis characters
+            if (!validCharList.Contains(p))
+            {
+                isEdgeCase = true;
+            }
+
+            // always allow first char
+            else if (paranStack.Count == 0)
+            {
+                isEdgeCase = false;
+            }
+
+            /*
+            subsequent characters of same value are OK
+            e.g. ( + ( + (
+            */
+            else if (paranStack.First() == p)
+            {
+                isEdgeCase = false;
+            }
+            return isEdgeCase;
+        }
+
+        static void ValidateParan(ref Stack<char> paranStack, char p)
+        {
+            switch (p)
+            {
+                case ')':
+                    {
+                        if (paranStack.First() == '(')
+                        {
+                            paranStack.Pop();
+                            break;
+                        }
+                        break;
+                    }
+                case ']':
+                    {
+                        if (paranStack.First() == '[')
+                        {
+                            paranStack.Pop();
+                            break;
+                        }
+                        break;
+                    }
+                case '}':
+                    {
+                        if (paranStack.First() == '{')
+                        {
+                            paranStack.Pop();
+                            break;
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        paranStack.Push(p);
+                        break;
+                    }
+            }
         }
 
         /*
