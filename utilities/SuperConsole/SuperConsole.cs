@@ -4,11 +4,18 @@ namespace SuperConsole
 {
     public sealed class IO
     {
-        private Dictionary<string, ConsoleColor>? textColors;
+        private readonly Dictionary<string, ConsoleColor>? textColors;
 
-        public IO()
+        private static readonly Lazy<IO> lazy =
+            new(() => new IO());
+
+        public static IO Instance { get { return lazy.Value; } }
+
+        public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
+
+        private IO()
         {
-            TextColors = new Dictionary<string, ConsoleColor>()
+            textColors = new Dictionary<string, ConsoleColor>()
             {
                 { "default", ConsoleColor.White },
                 { "green", ConsoleColor.Green },
@@ -21,24 +28,6 @@ namespace SuperConsole
                 { "black", ConsoleColor.Black },
                 { "gray", ConsoleColor.Gray }
             };
-        }
-
-        public IO(Dictionary<string, ConsoleColor> colors)
-        {
-            TextColors = colors;
-        }
-
-        public Dictionary<string, ConsoleColor>? TextColors
-        {
-            get { return textColors; }
-            set
-            {
-                if (value is null)
-                {
-                    throw new TextColorException();
-                }
-                textColors = value;
-            }
         }
 
         /// <summary>
@@ -55,17 +44,17 @@ namespace SuperConsole
         {
             if (clear is true) Console.Clear();
 
-            Console.ForegroundColor = TextColors[foreground];
+            Console.ForegroundColor = textColors![foreground!];
             if (background is not null)
             {
-                Console.BackgroundColor = TextColors[background];
+                Console.BackgroundColor = textColors[background];
             }
 
             Console.Write(text);
 
             if (newline is true)
             {
-                Console.Write("\n");
+                Console.Write(Environment.NewLine);
             }
             Console.ResetColor();
         }
@@ -76,7 +65,7 @@ namespace SuperConsole
 
         public void WriteEncoded(string text, bool? clear = false, bool? newline = false)
         {
-            if (TextColors is null)
+            if (textColors is null)
                 throw new TextColorNotSetException();
 
             if (clear is true)
@@ -115,7 +104,7 @@ namespace SuperConsole
 
                         string color = Regex.Replace(str, @"[\[\]]", "");
 
-                        Console.ForegroundColor = TextColors[color];
+                        Console.ForegroundColor = textColors[color];
                     }
                     else
                     {
@@ -123,7 +112,7 @@ namespace SuperConsole
                     }
                     if (newline is true)
                     {
-                        Console.Write("\n");
+                        Console.Write(Environment.NewLine);
                     }
                 }
             }
@@ -134,9 +123,11 @@ namespace SuperConsole
             Console.Clear();
         }
 
-        public string ReadAndClear()
+        public string? ReadAndClear()
         {
-            string input = Console.ReadLine();
+            if (this is null) throw new Exception("An IO instance is required!");
+
+            string input = Console.ReadLine()!;
             Console.Clear();
             return input;
         }

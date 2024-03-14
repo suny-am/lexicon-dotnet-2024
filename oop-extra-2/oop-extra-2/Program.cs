@@ -1,6 +1,6 @@
 ﻿using SuperConsole;
 
-IO io = new();
+IO io = IO.Instance;
 
 io.ClearAll();
 

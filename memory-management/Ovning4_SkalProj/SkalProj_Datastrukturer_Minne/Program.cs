@@ -88,7 +88,7 @@ namespace SkalProj_Datastrukturer_Minne
 {
     partial class Program
     {
-        readonly static IO io = new();
+        readonly static IO io = IO.Instance;
 
         /// <summary>
         /// The main method, vill handle the menus for the program
