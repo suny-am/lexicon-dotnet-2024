@@ -75,7 +75,7 @@ namespace MainMenu
 
         public static void Main()
         {
-            IO io = new();
+            IO io = IO.Instance;
             do
             {
                 GenerateMenu(io);
@@ -91,7 +91,7 @@ namespace MainMenu
 
             io.Write("Welcome to the cinema! how many are you?:", foreground: "green", newline: true);
 
-            int? visitorCount = int.Parse(io.ReadAndClear());
+            int? visitorCount = int.Parse(io.ReadAndClear()!);
 
             if (visitorCount is null)
             {
@@ -158,7 +158,7 @@ namespace MainMenu
                 io.Write($"Please specify person {visitorIndex + 1}'s age in digits:", foreground: "green", newline: true);
             }
 
-            int? ageInNumber = int.Parse(io.ReadAndClear());
+            int? ageInNumber = int.Parse(io.ReadAndClear()!);
 
             if (ageInNumber is null)
             {
@@ -184,7 +184,7 @@ namespace MainMenu
         private static void RepeatTenTimes(IO io)
         {
             io.Write(text: "Please provide a sentence:", foreground: "green", newline: true);
-            string input = io.ReadAndClear();
+            string input = io.ReadAndClear()!;
             io.ClearAll();
             for (int i = 0; i < 10; i++)
             {
@@ -205,7 +205,7 @@ namespace MainMenu
 
             io.Write(encodedText);
 
-            string input = io.ReadAndClear();
+            string input = io.ReadAndClear()!;
 
             string[] stringArray = whitespaces.Split(input);
 
