@@ -1,4 +1,4 @@
-namespace Garage_1_0.Models.Vehicles;
+namespace Garage_1_0.Library.Models.Vehicles;
 
 public abstract class Vehicle(Guid id, Guid registryId, string name) : IVehicle
 {

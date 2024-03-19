@@ -1,1 +1,0 @@
-namespace Garage_1_0.Models.Vehicles;

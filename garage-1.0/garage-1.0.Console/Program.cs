@@ -1,6 +1,6 @@
-﻿using Garage_1_0.Models;
-using Garage_1_0.Models.Vehicles;
+﻿using Garage_1_0.Library.Models;
+using Garage_1_0.Library.Repositories;
 
-Garage<Vehicle> garage = new(maxCapacity: 32);
-Garage<Vehicle> garage2 = new(maxCapacity: 25);
+Garage<ParkingSpot> garage = new(vehicleCapacity: 30);
 
+GarageRepository<ParkingSpot> garageRepository = new(garage);
