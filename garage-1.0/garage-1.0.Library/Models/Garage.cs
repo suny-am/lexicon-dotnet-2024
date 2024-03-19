@@ -5,9 +5,9 @@ namespace Garage_1_0.Library.Models;
 public class Garage<T> : IEnumerable, IEnumerable<T> where T : ParkingSpot
 {
     private ParkingSpot[] _spots;
-    private uint _vehicleCapacity = default!;
+    private int _vehicleCapacity = default!;
 
-    public Garage(uint vehicleCapacity)
+    public Garage(int vehicleCapacity)
     {
         VehicleCapacity = vehicleCapacity;
         _spots = new ParkingSpot[vehicleCapacity];
@@ -17,7 +17,7 @@ public class Garage<T> : IEnumerable, IEnumerable<T> where T : ParkingSpot
         }
     }
 
-    public uint VehicleCapacity
+    public int VehicleCapacity
     {
         get
         {

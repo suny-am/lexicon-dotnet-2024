@@ -1,7 +1,7 @@
 namespace Garage_1_0.Library.Repositories;
 
 
-interface IRepository<T> where T : class
+public interface IRepository<T> where T : class
 {
     public T Add(T entity);
     public T Update(T entity);

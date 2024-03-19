@@ -3,12 +3,12 @@ using Garage_1_0.Library.Models.Vehicles;
 
 namespace Garage_1_0.Library.Repositories;
 
-public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehicle>
+public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVehicle>
 {
-    private readonly Garage<ParkingSpot> _garage = garage;
+    private readonly Garage<ParkingSpot> _garage = new Garage<ParkingSpot>(30);
     private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
 
-    public Vehicle Add(Vehicle vehicle)
+    public IVehicle Add(IVehicle vehicle)
     {
         ParkingSpot spot = _parkingSpots
                                   .Where(s => s.Vehicle is null)
@@ -17,7 +17,7 @@ public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehic
         return spot.Vehicle = vehicle;
     }
 
-    public IEnumerable<Vehicle?>? All()
+    public IEnumerable<IVehicle?> All()
     {
         return _parkingSpots
                       .Select(s => s.Vehicle)
@@ -29,13 +29,13 @@ public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehic
         return _parkingSpots.Select(s => s.Vehicle).Any();
     }
 
-    public IEnumerable<Vehicle?> Find(Func<Vehicle?, bool> predicate)
+    public IEnumerable<IVehicle?> Find(Func<IVehicle?, bool> predicate)
     {
         return _parkingSpots.Select(s => s.Vehicle)
                             .Where(predicate);
     }
 
-    public Vehicle? Remove(Vehicle vehicle)
+    public IVehicle? Remove(IVehicle vehicle)
     {
         ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
         if (spot is null)
@@ -51,7 +51,7 @@ public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehic
         throw new NotImplementedException();
     }
 
-    public Vehicle Update(Vehicle vehicle)
+    public IVehicle Update(IVehicle vehicle)
     {
         ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
         if (spot is null)

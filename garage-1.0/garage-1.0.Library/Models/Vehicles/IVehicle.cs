@@ -1,5 +1,8 @@
 namespace Garage_1_0.Library.Models.Vehicles;
 
-interface IVehicle
+public interface IVehicle
 {
+    public Guid Id { get; }
+    public Guid RegistryId { get; }
+    public string Name { get; set; }
 }

@@ -4,9 +4,9 @@ namespace Garage_1_0.Library.Models;
 
 public class ParkingSpot()
 {
-    private Vehicle? _vehicle;
+    private IVehicle? _vehicle;
 
-    public Vehicle? Vehicle
+    public IVehicle? Vehicle
     {
         get
         {
