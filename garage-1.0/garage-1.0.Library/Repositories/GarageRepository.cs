@@ -5,36 +5,47 @@ namespace Garage_1_0.Library.Repositories;
 
 public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehicle>
 {
-    private Garage<ParkingSpot> _garage = garage;
+    private readonly Garage<ParkingSpot> _garage = garage;
+    private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
 
     public Vehicle Add(Vehicle vehicle)
     {
-        ParkingSpot spot = _garage.Spots.Last();
+        ParkingSpot spot = _parkingSpots
+                                  .Where(s => s.Vehicle is null)
+                                  .First();
+
         return spot.Vehicle = vehicle;
     }
 
-    public IEnumerable<Vehicle?> All()
+    public IEnumerable<Vehicle?>? All()
     {
-        return _garage.Spots.Select(s => s.Vehicle);
+        return _parkingSpots
+                      .Select(s => s.Vehicle)
+                      .Where(v => v is not null);
     }
 
     public bool Any()
     {
-        return _garage.Spots.Select(s => s.Vehicle).Any();
+        return _parkingSpots.Select(s => s.Vehicle).Any();
     }
 
-    public IEnumerable<Vehicle> Find(Func<Vehicle, bool> predicate)
+    public IEnumerable<Vehicle?> Find(Func<Vehicle?, bool> predicate)
     {
-        var spots = _garage.Spots.Where<Vehicle>(predicate);
-
+        return _parkingSpots.Select(s => s.Vehicle)
+                            .Where(predicate);
     }
 
-    public Vehicle Remove(Vehicle entity)
+    public Vehicle? Remove(Vehicle vehicle)
     {
-        throw new NotImplementedException();
+        ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
+        if (spot is null)
+        {
+            throw new Exception("TBD Exception here!");
+        }
+        return spot.Vehicle = null;
     }
 
-    // TBDUsed when saving to file!
+    // TBD Used when saving to file!
     public void SaveChanges()
     {
         throw new NotImplementedException();
@@ -42,6 +53,11 @@ public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<Vehic
 
     public Vehicle Update(Vehicle vehicle)
     {
-        throw new NotImplementedException();
+        ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
+        if (spot is null)
+        {
+            throw new Exception("TBD Exception here!");
+        }
+        return spot.Vehicle = vehicle;
     }
 }

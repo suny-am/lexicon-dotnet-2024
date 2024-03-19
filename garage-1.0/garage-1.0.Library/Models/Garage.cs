@@ -4,12 +4,17 @@ namespace Garage_1_0.Library.Models;
 
 public class Garage<T> : IEnumerable, IEnumerable<T> where T : ParkingSpot
 {
-    private IEnumerable<ParkingSpot> _spots = [];
-    private uint _vehicleCapacity;
+    private ParkingSpot[] _spots;
+    private uint _vehicleCapacity = default!;
 
     public Garage(uint vehicleCapacity)
     {
+        VehicleCapacity = vehicleCapacity;
         _spots = new ParkingSpot[vehicleCapacity];
+        for (int i = 0; i < vehicleCapacity; i++)
+        {
+            _spots[i] = new ParkingSpot();
+        }
     }
 
     public uint VehicleCapacity
@@ -24,9 +29,16 @@ public class Garage<T> : IEnumerable, IEnumerable<T> where T : ParkingSpot
         }
     }
 
-    public IEnumerable<ParkingSpot> Spots
+    public ParkingSpot[] Spots
     {
-        get; set;
+        get
+        {
+            return _spots;
+        }
+        set
+        {
+            _spots = value;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()

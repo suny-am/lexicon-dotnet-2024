@@ -2,21 +2,21 @@ namespace Garage_1_0.Library.Models.Vehicles;
 
 public abstract class Vehicle(Guid id, Guid registryId, string name) : IVehicle
 {
-    private Guid id = id;
-    private Guid registryId = registryId;
+    private Guid _id = id;
+    private Guid _registryId = registryId;
 
-    private string name = name;
+    private string _name = name;
 
     public Guid Id
     {
         get
         {
-            return id;
+            return _id;
         }
         // TBD! Validate!
         set
         {
-            id = value;
+            _id = value;
         }
     }
 
@@ -24,24 +24,24 @@ public abstract class Vehicle(Guid id, Guid registryId, string name) : IVehicle
     {
         get
         {
-            return name;
+            return _name;
         }
         // TBD! Validate!
         set
         {
-            name = value;
+            _name = value;
         }
     }
     public Guid RegistryId
     {
         get
         {
-            return registryId;
+            return _registryId;
         }
         // TBD! Validate!
         set
         {
-            registryId = value;
+            _registryId = value;
         }
     }
 }
