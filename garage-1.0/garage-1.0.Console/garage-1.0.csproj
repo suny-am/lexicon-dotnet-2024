@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\garage-1.0.Library\garage-1.0.Library.csproj" />
+    <ProjectReference Include="..\..\utilities\SuperConsole\SuperConsole.csproj" />
   </ItemGroup>
 
 </Project>
