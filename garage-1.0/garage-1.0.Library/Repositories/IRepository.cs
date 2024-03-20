@@ -3,7 +3,7 @@ namespace Garage_1_0.Library.Repositories;
 
 public interface IRepository<T> where T : class
 {
-    public T Add(T entity);
+    public T? Add(T entity);
     public T Update(T entity);
     public T? Remove(T entity);
     public IEnumerable<T?>  Find(Func<T?, bool> predicate);

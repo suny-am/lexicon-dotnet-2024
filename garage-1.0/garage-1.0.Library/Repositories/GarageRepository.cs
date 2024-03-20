@@ -1,3 +1,4 @@
+using Garage_1_0.Library.Exceptions;
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 
@@ -8,11 +9,18 @@ public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVehi
     private readonly Garage<ParkingSpot> _garage = new Garage<ParkingSpot>(30);
     private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
 
-    public IVehicle Add(IVehicle vehicle)
+    public IVehicle? Add(IVehicle vehicle)
     {
-        ParkingSpot spot = _parkingSpots
-                                  .Where(s => s.Vehicle is null)
-                                  .First();
+        ParkingSpot spot;
+        try
+        {
+            spot = _parkingSpots.Where(s => s.Vehicle is null)
+                                .First();
+        }
+        catch (Exception)
+        {
+            throw new RepositoryFullException(vehicle);
+        }
 
         return spot.Vehicle = vehicle;
     }

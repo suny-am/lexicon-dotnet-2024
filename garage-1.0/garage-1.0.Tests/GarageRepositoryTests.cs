@@ -12,7 +12,7 @@ public class GarageRepositoryTests
 
     public GarageRepositoryTests()
     {
-        _mockCar = new Car(Guid.NewGuid(), Guid.NewGuid(), "testCar");
+        _mockCar = new Car(id: Guid.NewGuid(), registrationNumber: "RTR808", color: "red");
         _mockRepository = new GarageRepository<IVehicle>(_garage);
     }
 
@@ -37,7 +37,6 @@ public class GarageRepositoryTests
 
         // ASSERT
         Assert.Equal(_mockCar, result);
-
     }
 
     [Fact]
@@ -51,6 +50,21 @@ public class GarageRepositoryTests
 
         // ASSERT
         Assert.DoesNotContain(_mockCar, _mockRepository.All());
+    }
 
+    [Fact]
+    public void Repository_Updates_Vehicle_In_Garage_With_Correct_Values()
+    {
+        // ARRANGE
+        _mockRepository.Add(_mockCar);
+        var car = _mockRepository.Find(c => c!.RegistrationNumber == "RTR808").First()!;
+
+        // ACT
+        car.Color = "purple";
+        _mockRepository.Update(car);
+
+        // ASSERT
+        var resultColor = _mockRepository.Find(c => c!.RegistrationNumber == "RTR808").First()!.Color;
+        Assert.Equal("purple", resultColor);
     }
 }
