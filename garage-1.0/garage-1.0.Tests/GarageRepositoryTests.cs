@@ -6,7 +6,7 @@ namespace garage_1._0.Tests;
 
 public class GarageRepositoryTests
 {
-    private Garage<ParkingSpot> _garage = new Garage<ParkingSpot>(5);
+    private Garage<ParkingSpot> _garage = new(5);
     private GarageRepository<IVehicle> _mockRepository;
     private IVehicle _mockCar;
 

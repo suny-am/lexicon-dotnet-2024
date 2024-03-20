@@ -5,6 +5,12 @@ public class Motorcycle(Guid id, Guid registryId, string name) : IVehicle
     private Guid _id = id;
     private Guid _registryId = registryId;
     private string _name = name;
+    private readonly int _wheelCount = 2;
+    private string? _color;
+
+    public string? Color { get => _color; set => _color = value; }
+
+    public int WheelCount => _wheelCount;
 
     public Guid Id => _id;
 
