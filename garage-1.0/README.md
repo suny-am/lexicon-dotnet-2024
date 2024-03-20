@@ -2,7 +2,7 @@
 
 ## Description
 A small application for handling registration, deregistration and data of Vehicles
-stored in select garages.
+stored in select Garages.
 
 ## Data Structure Schematic
 ![Garage 1.0 Data Structure Schematic](data-structure.png)
