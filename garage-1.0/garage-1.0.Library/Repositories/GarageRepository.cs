@@ -1,13 +1,12 @@
-using Garage_1_0.Library.Exceptions;
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 
 namespace Garage_1_0.Library.Repositories;
 
-public class GarageRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVehicle>
+public class GarageRepository<T> : IRepository<IVehicle>
 {
-    private readonly Garage<ParkingSpot> _garage = new Garage<ParkingSpot>(30);
-    private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
+    private Garage<ParkingSpot> _garage = null!;
+    private IEnumerable<ParkingSpot> _parkingSpots = null!;
 
     public IVehicle? Add(IVehicle vehicle)
     {
