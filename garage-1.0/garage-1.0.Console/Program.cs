@@ -1,5 +1,8 @@
-﻿using Garage_1_0.Library.UI;
-
+﻿using Garage_1_0.Library.Models;
+using Garage_1_0.Library.Models.Vehicles;
+using Garage_1_0.Library.Repositories;
+using Garage_1_0.Library.UI;
+/* 
 UI ui = UI.Instance;
 
 // TBD! For now let's just create and populate our views here
@@ -38,4 +41,26 @@ UIView mainMenuView = new("Main Menu", viewItems);
 ui.Views = [mainMenuView, garageView, vehicleView];
 
 // Select a view as entry point
-mainMenuView.Enter();
+mainMenuView.Enter(); */
+
+Garage<ParkingSpot> garage = new("test", 300);
+
+VehicleRepository<Vehicle> vehicleRepository = new(garage);
+
+Car car = new(Guid.NewGuid(), "abc123", true);
+Bus bus = new(Guid.NewGuid(), "def123", "gasoline", 6);
+Motorcycle motorcycle = new(Guid.NewGuid(), "ghj123", 2);
+Boat boat = new(Guid.NewGuid(), "xyz123", false);
+Airplane airplane = new(Guid.NewGuid(), "trt123", 4);
+
+vehicleRepository.Add(car);
+vehicleRepository.Add(bus);
+vehicleRepository.Add(motorcycle);
+vehicleRepository.Add(boat);
+vehicleRepository.Add(airplane);
+
+foreach (var v in vehicleRepository.All())
+{
+    Console.WriteLine(v?.RegistrationNumber);
+}
+Console.Read();

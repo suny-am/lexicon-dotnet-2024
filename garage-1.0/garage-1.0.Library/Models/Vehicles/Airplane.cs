@@ -3,19 +3,29 @@ namespace Garage_1_0.Library.Models.Vehicles;
 public class Airplane : Vehicle
 {
 
-    public Airplane(Guid id, string vehicleType, string registrationNumber) : base(id, vehicleType, registrationNumber)
-    { }
+    private int _engineCount;
+
+    public Airplane(Guid id, string registrationNumber, int engineCount) : base(id, registrationNumber)
+    {
+        _engineCount = engineCount;
+    }
 
     public Airplane(Guid id,
-                string vehicleType,
                 string registrationNumber,
-                string? color = null) : base(id, vehicleType, registrationNumber, color)
-    { }
+                int engineCount,
+                string? color = null) : base(id, registrationNumber, color)
+    {
+        _engineCount = engineCount;
+    }
 
     public Airplane(Guid id,
-                string vehicleType,
                 string registrationNumber,
+                int engineCount,
                 string? color = null,
-                string? model = null) : base(id, vehicleType, registrationNumber, color, model)
-    { }
+                string? model = null) : base(id, registrationNumber, color, model)
+    {
+        _engineCount = engineCount;
+    }
+
+    public int EngineCount => _engineCount;
 }

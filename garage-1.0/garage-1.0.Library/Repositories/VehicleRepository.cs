@@ -7,7 +7,7 @@ namespace Garage_1_0.Library.Repositories;
 public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVehicle>
 {
     private Garage<ParkingSpot> _garage = garage;
-    private IEnumerable<ParkingSpot> _parkingSpots = null!;
+    private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
 
     public Garage<ParkingSpot> Garage
     {
@@ -23,18 +23,24 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
 
     public IVehicle? Add(IVehicle vehicleToAdd)
     {
-        ParkingSpot spot;
+        ParkingSpot? spot;
         try
         {
-            spot = _parkingSpots.Where(s => s.Vehicle is null)
-                                .First();
+            var exists = _parkingSpots.Any(s => s.Vehicle?.RegistrationNumber == vehicleToAdd.RegistrationNumber);
+            if (exists) throw new RepositoryVehicleExistsException(vehicleToAdd);
+            spot = _parkingSpots.FirstOrDefault(s => s.Vehicle is null);
+            if (spot is null) throw new RepositoryFullException(vehicleToAdd);
         }
-        catch (Exception)
+        catch (RepositoryVehicleExistsException)
         {
-            throw new RepositoryFullException(vehicleToAdd);
+            throw;
+        }
+        catch (RepositoryFullException)
+        {
+            throw;
         }
 
-        return spot.Vehicle = vehicleToAdd;
+        return spot!.Vehicle = vehicleToAdd;
     }
 
     public IEnumerable<IVehicle?> All()
@@ -55,7 +61,7 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
                             .Where(query);
     }
 
-    public IVehicle? Remove(string vehicleRegistrationNumber)
+    public IVehicle? Remove(string? vehicleRegistrationNumber)
     {
         ParkingSpot? spot = _parkingSpots
                             .FirstOrDefault(s => s.Vehicle?.RegistrationNumber == vehicleRegistrationNumber)

@@ -1,8 +1,7 @@
-
 using Garage_1_0.Library.Models;
 using SuperConsole;
 
-namespace Garage_1_0.Library.UI;
+namespace Garage_1_0.Library.UI.Views;
 
 public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) : UIView(title, viewItems)
 {
@@ -60,11 +59,11 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
         while (operationComplete is false);
 
         bool unitComplete = false;
-        int activeIndex = 0;
+        ActiveIndex = 0;
+        var backMenuItems = BackMenuItems("New");
 
         do
         {
-            var backMenuItems = BackMenuItems("New");
             _io.ClearAll();
             Console.CursorVisible = false;
             _io.WriteEncoded($"[blue]{garageToCreate!.Name}[blue][green] added to garage list." +
@@ -77,13 +76,13 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
             foreach (var item in backMenuItems)
             {
                 string color = "green";
-                if (item == backMenuItems.ElementAt(activeIndex))
+                if (item == backMenuItems.ElementAt(ActiveIndex))
                 {
                     color = "red";
                 }
                 _io.Write(item.Title, foreground: color, newline: true);
             }
-            WatchInput(ref activeIndex, ref unitComplete, backMenuItems);
+            WatchInput(ref unitComplete, backMenuItems);
         } while (!unitComplete);
 
     }
@@ -91,7 +90,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
     public static void Load()
     {
         bool operationComplete = false;
-        int activeIndex = 0;
+        ActiveIndex = 0;
         do
         {
             string color = "green";
@@ -102,7 +101,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 _io.WriteEncoded($"[red]No garages found." +
                                Environment.NewLine +
                                "Press any key to continue[red]");
-                WatchInput(ref activeIndex, ref operationComplete, backMenuItems);
+                WatchInput(ref operationComplete, backMenuItems);
             }
             else if (_ui.GarageList!.Count() == 1)
             {
@@ -110,7 +109,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 var garage = _ui.GarageList!.First();
                 var garageActionItem = new ViewActionItem<object>(garage.Name, null, LoadGarage);
                 _io.Write(_ui.GarageList!.ElementAt(0).Name, foreground: color, newline: true);
-                WatchInput(ref activeIndex, ref operationComplete, backMenuItems);
+                WatchInput(ref operationComplete, backMenuItems);
             }
             else
             {
@@ -124,13 +123,13 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                     foreach (var garage in _ui.GarageList!)
                     {
                         color = "green";
-                        if (_ui.GarageList.ElementAt(activeIndex) == garage)
+                        if (_ui.GarageList.ElementAt(ActiveIndex) == garage)
                         {
                             color = "red";
                         }
                         _io.Write(garage.Name, foreground: color, newline: true);
                     }
-                    WatchInput(ref activeIndex, ref operationComplete, garageItemList);
+                    WatchInput(ref operationComplete, garageItemList);
                 }
                 catch (ArgumentException ex)
                 {
@@ -143,7 +142,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
     public static void Delete()
     {
         bool operationComplete = false;
-        int activeIndex = 0;
+        ActiveIndex = 0;
         string targetGarageName = "";
         ViewActionItem<object>[] backMenuItems = BackMenuItems("Delete");
 
@@ -155,21 +154,21 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 _io.WriteEncoded($"[red]No garages found." +
                                 Environment.NewLine +
                                 "Press any key to continue[red]");
-                WatchInput(ref activeIndex, ref operationComplete, backMenuItems);
+                WatchInput(ref operationComplete, backMenuItems);
             }
             else
             {
                 // TBD! use Garage Repository to create suitable items instead
                 var garageItemList = _ui.GarageList!
-                                                .Select(g => new ViewActionItem<Garage<ParkingSpot>>
-                                                (g.Name, null, DeleteGarage));
+                                    .Select(g => new ViewActionItem<Garage<ParkingSpot>>
+                                    (g.Name, null, DeleteGarage));
                 try
                 {
                     _io.Write("Select a garage to delete:", foreground: "green", newline: true);
                     foreach (var garage in _ui.GarageList!)
                     {
                         string color = "green";
-                        if (_ui.GarageList.ElementAt(activeIndex) == garage)
+                        if (_ui.GarageList.ElementAt(ActiveIndex) == garage)
                         {
                             targetGarageName = garage.Name;
                             color = "red";
@@ -181,12 +180,12 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 {
                     _io.Write(ex.Message, foreground: "red", newline: true);
                 }
-                WatchInput(ref activeIndex, ref operationComplete, garageItemList);
+                WatchInput(ref operationComplete, garageItemList);
             }
         } while (!operationComplete);
 
         bool unitComplete = false;
-        activeIndex = 0;
+        ActiveIndex = 0;
 
         do
         {
@@ -202,13 +201,13 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
             foreach (var item in backMenuItems)
             {
                 string color = "green";
-                if (item == backMenuItems.ElementAt(activeIndex))
+                if (item == backMenuItems.ElementAt(ActiveIndex))
                 {
                     color = "red";
                 }
                 _io.Write(item.Title, foreground: color, newline: true);
             }
-            WatchInput(ref activeIndex, ref unitComplete, backMenuItems);
+            WatchInput(ref unitComplete, backMenuItems);
         } while (!unitComplete);
     }
 
@@ -263,51 +262,5 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
         return backMenuItems;
     }
 
-    private static void WatchInput(ref int activeIndex, ref bool complete, IEnumerable<ViewActionItem<object>> viewItems)
-    {
-        var key = Console.ReadKey().Key;
-        // prevent index overflow
-        if (viewItems!.Count() < 2) { complete = true; }
 
-        if (key is ConsoleKey.DownArrow && activeIndex < viewItems!.Count() - 1)
-        {
-            activeIndex++;
-        }
-        else if (key is ConsoleKey.UpArrow && activeIndex > 0)
-        {
-            activeIndex--;
-        }
-        else if (key is ConsoleKey.Enter)
-        {
-            var targetItem = viewItems!.ElementAt(activeIndex);
-            targetItem.Action!.Invoke();
-            complete = true;
-        }
-    }
-
-    // necessary overload
-    private static void WatchInput(ref int activeIndex, ref bool complete, IEnumerable<ViewActionItem<Garage<ParkingSpot>>> garageItems)
-    {
-        var key = Console.ReadKey().Key;
-        // prevent index overflow
-        if (garageItems!.Count() < 2) { complete = true; }
-
-        if (key is ConsoleKey.DownArrow && activeIndex < garageItems!.Count() - 1)
-        {
-            activeIndex++;
-        }
-        else if (key is ConsoleKey.UpArrow && activeIndex > 0)
-        {
-            activeIndex--;
-        }
-        else if (key is ConsoleKey.Enter)
-        {
-            var targetItem = garageItems?.ElementAt(activeIndex);
-            Garage<ParkingSpot>? targetGarage = _ui.GarageList!
-                                                .FirstOrDefault(g => g.Name == targetItem!.Title) 
-                                                ?? throw new ArgumentException("Target not found");
-            targetItem!.ParamsAction!.Invoke(targetGarage);
-            complete = true;
-        }
-    }
 }

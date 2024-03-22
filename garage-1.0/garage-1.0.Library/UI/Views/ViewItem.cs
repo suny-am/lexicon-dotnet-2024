@@ -1,4 +1,4 @@
-namespace Garage_1_0.Library.UI;
+namespace Garage_1_0.Library.UI.Views;
 
 public abstract class ViewItem(string title) : IViewItem
 {

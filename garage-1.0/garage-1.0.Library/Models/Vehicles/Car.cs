@@ -2,23 +2,31 @@ namespace Garage_1_0.Library.Models.Vehicles;
 
 public class Car : Vehicle
 {
+    private bool _electric;
+    private readonly int _wheelCount = 4;
 
-    public Car(Guid id, string vehicleType, string registrationNumber) : base(id, vehicleType, registrationNumber)
-    { }
-
-    public Car(Guid id,
-                string vehicleType,
-                string registrationNumber,
-                string? color = null) : base(id, vehicleType, registrationNumber, color)
-    { }
+    public Car(Guid id, string registrationNumber, bool electric) : base(id, registrationNumber)
+    {
+        _electric = electric;
+    }
 
     public Car(Guid id,
-                string vehicleType,
                 string registrationNumber,
+                bool electric,
+                string? color = null) : base(id, registrationNumber, color)
+    {
+        _electric = electric;
+    }
+
+    public Car(Guid id,
+                string registrationNumber,
+                bool electric,
                 string? color = null,
-                string? model = null) : base(id, vehicleType, registrationNumber, color, model)
-    { }
+                string? model = null) : base(id, registrationNumber, color, model)
+    {
+        _electric = electric;
+    }
 
-    private readonly int _wheelCount = 4; // TBD! Read from config?
+    public bool Electric => _electric;
     public int WheelCount => _wheelCount;
 }
