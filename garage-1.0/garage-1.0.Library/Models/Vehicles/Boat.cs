@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Garage_1_0.Library.Models.Vehicles;
 
 public class Boat : Vehicle
@@ -6,14 +8,14 @@ public class Boat : Vehicle
 
     public Boat(string registrationNumber, bool sail) : base(registrationNumber)
     {
-        _sail = sail;
+        _sail = ValidateSail(sail);
     }
 
     public Boat(string registrationNumber,
                 bool sail,
                 string? color = null) : base(registrationNumber, color)
     {
-        _sail = sail;
+        _sail = ValidateSail(sail);
     }
 
     public Boat(string registrationNumber,
@@ -21,8 +23,26 @@ public class Boat : Vehicle
                 string? color = null,
                 string? model = null) : base(registrationNumber, color, model)
     {
-        _sail = sail;
+        _sail = ValidateSail(sail);
     }
 
     public bool Sail => _sail;
+
+    private static bool ValidateSail(bool? sail)
+    {
+        ArgumentNullException.ThrowIfNull(sail);
+        return (bool)sail;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder stats = new();
+        string hasSail = Sail ? "yes" : "no";
+        stats.Append($"Vehicle Type: {VehicleType} | " +
+                    $"Registration Number: {RegistrationNumber} | " +
+                    $"Sail: {hasSail} | ");
+        if (Color is not null) stats.Append($"Color: {Color} | ");
+        if (Model is not null) stats.Append($"Model: {Model} | ");
+        return stats.ToString();
+    }
 }

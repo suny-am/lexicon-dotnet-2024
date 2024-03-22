@@ -47,25 +47,27 @@ Garage<ParkingSpot> garage = new("test", 300);
 
 VehicleRepository<Vehicle> vehicleRepository = new(garage);
 
+
 IEnumerable<Vehicle> vehicles =
 [
-new Car(Guid.NewGuid(), "abc123", true, "red"),
-new Car(Guid.NewGuid(), "dcp123", true, "red"),
-new Bus(Guid.NewGuid(), "def123", "gasoline", 6, color: "red"),
-new Bus(Guid.NewGuid(), "asaff123", "gasoline", 6),
-new Bus(Guid.NewGuid(), "de4737f123", "gasoline", 6),
-new Motorcycle(Guid.NewGuid(), "ghj123", 2, color: "re31td"),
-new Boat(Guid.NewGuid(), "xyz123", false),
-new Airplane(Guid.NewGuid(), "trt123", 4),
+            new Car ("abc123", true, "red"),
+            new Car ("dcp123", true, "red"),
+            new Bus ("def123", "gasoline", 6, color: "red"),
+            new Bus("asaff123", "gasoline", 6),
+            new Bus("de4737f123", "gasoline", 6),
+            new Motorcycle("ghj123", 2, color: "silver"),
+            new Boat("xyz123", false, color: "gold"),
+            new Airplane("trt123", 4, color: "white"),
 ];
 
 foreach (var vehicle in vehicles)
 {
     vehicleRepository.Add(vehicle);
-
 }
 
-vehicleRepository.Add(new Motorcycle(Guid.NewGuid(),)
-
+foreach (var v in vehicleRepository.All())
+{
+    Console.WriteLine(v);
+}
 
 Console.Read();

@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Garage_1_0.Library.Models.Vehicles;
 
 public class Motorcycle : Vehicle
@@ -27,13 +29,24 @@ public class Motorcycle : Vehicle
         _seatCount = ValidateSeatCount(seatCount);
     }
 
-    private static int ValidateSeatCount(int seatCount)
-    {
-        if (seatCount > 4) throw new ArgumentException("Seat count can't be greater than 4!");
-        if (seatCount < 1) throw new ArgumentException("Seat count can't be less than 1!");
-        return seatCount;
-    }
-
     public int SeatCount => _seatCount;
     public int WheelCount => _wheelCount;
+
+    private static int ValidateSeatCount(int? seatCount)
+    {
+        ArgumentNullException.ThrowIfNull(seatCount);
+        if (seatCount < 1 || seatCount > 4) throw new ArgumentOutOfRangeException(nameof(seatCount));
+        return (int)seatCount;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder stats = new();
+        stats.Append($"Vehicle Type: {VehicleType} | " +
+                    $"Registration Number: {RegistrationNumber} | " +
+                    $"Seat count: {SeatCount} | ");
+        if (Color is not null) stats.Append($"Color: {Color} | ");
+        if (Model is not null) stats.Append($"Model: {Model} | ");
+        return stats.ToString();
+    }
 }

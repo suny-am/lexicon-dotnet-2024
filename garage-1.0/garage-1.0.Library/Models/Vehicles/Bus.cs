@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Garage_1_0.Library.Models.Vehicles;
@@ -32,15 +33,21 @@ public class Bus : Vehicle
         _wheelCount = ValidateWheelCount(wheelCount);
     }
 
-    private static int ValidateWheelCount(int wheelCount)
+    public int WheelCount => _wheelCount;
+    public string FuelType => _fuelType;
+
+    private static int ValidateWheelCount(int? wheelCount)
     {
-        if (int.IsOddInteger(wheelCount)) throw new ArgumentException("Wheel count must be an even integer");
-        if (wheelCount < 4) throw new ArgumentException("Wheel count cannot be less than 4");
-        return wheelCount;
+
+        ArgumentNullException.ThrowIfNull(wheelCount);
+        if (int.IsOddInteger((int)wheelCount)) throw new ArgumentException("Wheel count must be an even integer");
+        if (wheelCount < 4 || wheelCount > 18) throw new ArgumentOutOfRangeException(nameof(wheelCount));
+        return (int)wheelCount;
     }
 
-    private static string ValidateFuelType(string fuelType)
+    private static string ValidateFuelType(string? fuelType)
     {
+        ArgumentNullException.ThrowIfNull(fuelType);
         if (Regex.Match(fuelType.ToLower(), @"gasoline|diesel").Success is false)
         {
             throw new ArgumentException($"Invalid argument provided for fuel type: {fuelType}");
@@ -48,6 +55,14 @@ public class Bus : Vehicle
         return fuelType;
     }
 
-    public int WheelCount => _wheelCount;
-    public string FuelType => _fuelType;
+    public override string ToString()
+    {
+        StringBuilder stats = new();
+        stats.Append($"Vehicle Type: {VehicleType} | " +
+                    $"Registration Number: {RegistrationNumber} | " +
+                    $"Wheel count: {WheelCount} | ");
+        if (Color is not null) stats.Append($"Color: {Color} | ");
+        if (Model is not null) stats.Append($"Model: {Model} | ");
+        return stats.ToString();
+    }
 }
