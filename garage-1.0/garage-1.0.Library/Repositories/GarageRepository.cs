@@ -1,6 +1,5 @@
 using Garage_1_0.Library.Exceptions;
 using Garage_1_0.Library.Models;
-using Garage_1_0.Library.Models.Vehicles;
 
 namespace Garage_1_0.Library.Repositories;
 

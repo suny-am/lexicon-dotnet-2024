@@ -1,19 +1,17 @@
 
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
-using SuperConsole;
 
 namespace Garage_1_0.Library.UI;
 
 public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIView(title, viewItems)
 {
     private static UI _ui = UI.Instance;
-    private static IO _io = IO.Instance;
     private GarageRepository<Vehicle> _garageRepository = new();
-    private static readonly ViewActionItem[] _backMenuItems =
+    private static readonly ViewActionItem<object>[] _backMenuItems =
        [
-           new("Continue", Console.WriteLine ),
-           new("Back", _ui.Views.First(v => v.Title == "Garages").Enter)
+           new("Continue", Console.WriteLine, null ),
+           new("Back", _ui.Views.First(v => v.Title == "Garages").Enter, null)
        ];
 
     public GarageRepository<Vehicle> GarageRepository => _garageRepository;

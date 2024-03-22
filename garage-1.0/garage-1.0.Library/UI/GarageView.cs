@@ -10,7 +10,8 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
 
-    // WIP! Need to make this less bloated
+    // WIP! Need to make this less bloated; 
+    // Garage  Repository and error handling does exist but not used yet...
     public static void New()
     {
         bool inputAccepted = false;
@@ -91,7 +92,9 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
         do
         {
             string color = "green";
-            IViewItem[] backMenuItems = BackMenuItems("Load");
+            ViewActionItem<object>[] backMenuItems = BackMenuItems("Load");
+            IEnumerable<ViewActionItem<object>> garageItemList;
+
             _io.ClearAll();
             if (!UI.Instance.GarageList!.Any())
             {
@@ -101,23 +104,27 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
             {
                 color = "red";
                 var garage = UI.Instance.GarageList!.First();
-                var garageActionItem = new ViewParamActionItem<Garage<ParkingSpot>>(garage.Name, garage => UI.Instance.SelectedGarage = garage);
+                var garageActionItem = new ViewActionItem<Garage<ParkingSpot>>(garage.Name,
+                                        action: null,
+                                        paramsAction: garage => UI.Instance.SelectedGarage = garage);
                 _io.Write(UI.Instance.GarageList!.ElementAt(0).Name, foreground: color, newline: true);
+                WatchInput(ref activeIndex, ref complete, backMenuItems);
             }
             else
             {
-                backMenuItems = (IViewItem[])UI.Instance.GarageList!.Select(g => new ViewParamActionItem<Garage<ParkingSpot>>(g.Name, garage => UI.Instance.SelectedGarage = garage));
+                garageItemList = UI.Instance.GarageList!
+                                .Select(g => new ViewActionItem<object>
+                                (g.Name, action: null, paramsAction: garage => UI.Instance.SelectedGarage = (Garage<ParkingSpot>?)garage));
                 foreach (var garage in UI.Instance.GarageList!)
                 {
-
                     if (UI.Instance.GarageList.ElementAt(activeIndex) == garage)
                     {
                         color = "red";
                     }
                     _io.Write(garage.Name, foreground: color, newline: true);
                 }
+                WatchInput(ref activeIndex, ref complete, garageItemList);
             }
-            WatchInput(ref activeIndex, ref complete, backMenuItems);
         } while (true);
     }
 
@@ -156,40 +163,40 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
         mainMenu.Enter();
     }
 
-    private static ViewActionItem[] BackMenuItems(string context)
+    private static ViewActionItem<object>[] BackMenuItems(string context)
     {
-
-        ViewActionItem continueOption;
+        ViewActionItem<object> continueOption;
 
         if (context == "New")
         {
-            continueOption = new("Continue", New);
+            continueOption = new("Continue", New, null);
         }
         else if (context == "Load")
         {
-            continueOption = new("Load", Load);
+            continueOption = new("Load", Load, null);
         }
         else
         {
-            continueOption = new("Delete", Load);
+            continueOption = new("Delete", Delete, null);
         };
 
-        ViewActionItem[] backMenuItems =
+        ViewActionItem<object>[] backMenuItems =
       [
             continueOption,
-            new("Back", _ui.Views.First(v => v.Title == "Garages").Enter)
+            new("Back", action: _ui.Views.First(v => v.Title == "Garages").Enter, paramsAction: null)
       ];
         return backMenuItems;
     }
 
-    // extra required overload 
-    private static void WatchInput(ref int activeIndex, ref bool complete, IViewItem[] viewItems)
+    // ,
+    private static void WatchInput(ref int activeIndex, ref bool complete, IEnumerable<IViewActionItem<object>> viewItems)
     {
         var key = Console.ReadKey().Key;
 
-        if (viewItems.Length < 2) { return; }
+        // prevent index overflow
+        if (viewItems.Count() < 2) { return; }
 
-        if (key is ConsoleKey.DownArrow && activeIndex < viewItems.Length - 1)
+        if (key is ConsoleKey.DownArrow && activeIndex < viewItems.Count() - 1)
         {
             activeIndex++;
         }
@@ -199,7 +206,19 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
         }
         else if (key is ConsoleKey.Enter)
         {
-            ((ViewActionItem)viewItems.ElementAt(activeIndex)).Action!.Invoke();
+            var targetItem = viewItems.ElementAt(activeIndex);
+
+            {
+                if (targetItem!.Action is not null)
+                {
+                    targetItem.Action.Invoke();
+                }
+                // we know this is an Action<T>
+                else
+                {
+                    targetItem!.ParamsAction!.Invoke(targetItem.Title);
+                }
+            }
             complete = true;
         }
     }
