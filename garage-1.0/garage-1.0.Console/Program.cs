@@ -47,20 +47,24 @@ Garage<ParkingSpot> garage = new("test", 300);
 
 VehicleRepository<Vehicle> vehicleRepository = new(garage);
 
-Car car = new(Guid.NewGuid(), "abc123", true);
-Bus bus = new(Guid.NewGuid(), "def123", "gasoline", 6);
-Motorcycle motorcycle = new(Guid.NewGuid(), "ghj123", 2);
-Boat boat = new(Guid.NewGuid(), "xyz123", false);
-Airplane airplane = new(Guid.NewGuid(), "trt123", 4);
+IEnumerable<Vehicle> vehicles =
+[
+new Car(Guid.NewGuid(), "abc123", true, "red"),
+new Car(Guid.NewGuid(), "dcp123", true, "red"),
+new Bus(Guid.NewGuid(), "def123", "gasoline", 6, color: "red"),
+new Bus(Guid.NewGuid(), "asaff123", "gasoline", 6),
+new Bus(Guid.NewGuid(), "de4737f123", "gasoline", 6),
+new Motorcycle(Guid.NewGuid(), "ghj123", 2),
+new Boat(Guid.NewGuid(), "xyz123", false),
+new Airplane(Guid.NewGuid(), "trt123", 4),
+];
 
-vehicleRepository.Add(car);
-vehicleRepository.Add(bus);
-vehicleRepository.Add(motorcycle);
-vehicleRepository.Add(boat);
-vehicleRepository.Add(airplane);
-
-foreach (var v in vehicleRepository.All())
+foreach (var vehicle in vehicles)
 {
-    Console.WriteLine(v?.RegistrationNumber);
+    vehicleRepository.Add(vehicle);
+
 }
+
+var redVehicles = vehicleRepository.Find(v => v.Color == "red");
+
 Console.Read();
