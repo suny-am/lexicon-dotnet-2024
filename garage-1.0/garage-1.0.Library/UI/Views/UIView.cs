@@ -15,8 +15,15 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
     public IEnumerable<IViewItem> ViewItems => _viewItems;
     public static int ActiveIndex { get => _activeIndex; set => _activeIndex = value; }
 
-    public void Enter()
+    public virtual void Enter()
     {
+        // make sure a garage is selected before entering VehicleView
+        if (Title == "Vehicles" && _ui.SelectedGarage is null)
+        {
+            _io.Write("A garage must be selected.", foreground: "red", newline: true);
+            Console.ReadKey();
+            return;
+        }
         _ui.ActiveView = this;
         do
         {
@@ -54,9 +61,10 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
              Environment.NewLine +
              "---" +
              Environment.NewLine +
-             $"Selected garage: [magenta]{UI.Instance.SelectedGarage?.Name ?? "No garage selected"}[magenta]" +
+             $"Selected garage: [magenta]{UI.Instance.SelectedGarage?.Name
+             ?? "No garage selected"}[magenta]" +
              Environment.NewLine +
-             "---[cyan]" +
+             "[cyan]---[cyan]" +
              Environment.NewLine;
     }
 

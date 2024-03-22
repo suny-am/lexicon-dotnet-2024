@@ -2,7 +2,8 @@
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
 using Garage_1_0.Library.UI;
-/* 
+using Garage_1_0.Library.UI.Views;
+
 UI ui = UI.Instance;
 
 // TBD! For now let's just create and populate our views here
@@ -41,33 +42,33 @@ UIView mainMenuView = new("Main Menu", viewItems);
 ui.Views = [mainMenuView, garageView, vehicleView];
 
 // Select a view as entry point
-mainMenuView.Enter(); */
+mainMenuView.Enter();
 
-Garage<ParkingSpot> garage = new("test", 300);
+// Garage<ParkingSpot> garage = new("test", 300);
 
-VehicleRepository<Vehicle> vehicleRepository = new(garage);
+// VehicleRepository<Vehicle> vehicleRepository = new(garage);
 
 
-IEnumerable<Vehicle> vehicles =
-[
-            new Car ("abc123", true, "red"),
-            new Car ("dcp123", true, "red"),
-            new Bus ("def123", "gasoline", 6, color: "red"),
-            new Bus("asaff123", "gasoline", 6),
-            new Bus("de4737f123", "gasoline", 6),
-            new Motorcycle("ghj123", 2, color: "silver"),
-            new Boat("xyz123", false, color: "gold"),
-            new Airplane("trt123", 4, color: "white"),
-];
+// IEnumerable<Vehicle> vehicles =
+// [
+//             new Car ("abc123", true, "red"),
+//             new Car ("dcp123", true, "red"),
+//             new Bus ("def123", "gasoline", 6, color: "red"),
+//             new Bus("asaff123", "gasoline", 6),
+//             new Bus("de4737f123", "gasoline", 6),
+//             new Motorcycle("ghj123", 2, color: "silver"),
+//             new Boat("xyz123", false, color: "gold"),
+//             new Airplane("trt123", 4, color: "white"),
+// ];
 
-foreach (var vehicle in vehicles)
-{
-    vehicleRepository.Add(vehicle);
-}
+// foreach (var vehicle in vehicles)
+// {
+//     vehicleRepository.Add(vehicle);
+// }
 
-foreach (var v in vehicleRepository.All())
-{
-    Console.WriteLine(v);
-}
+// foreach (var v in vehicleRepository.All())
+// {
+//     Console.WriteLine(v);
+// }
 
-Console.Read();
+// Console.Read();

@@ -37,7 +37,6 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 Console.ReadKey();
                 continue;
             }
-            _io.Write(name, newline: true);
             _io.Write("Select a maximum parking capacity", foreground: "green", newline: true);
             _io.Write("Maximum Capacity: ", foreground: "green");
             bool validCapacity = int.TryParse(_io.ReadAndClear(), out int capacity);
