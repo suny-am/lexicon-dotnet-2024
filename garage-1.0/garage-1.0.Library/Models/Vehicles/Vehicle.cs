@@ -3,29 +3,25 @@ using System.Text.RegularExpressions;
 
 namespace Garage_1_0.Library.Models.Vehicles;
 
-public abstract class Vehicle(Guid id, string registrationNumber) : IVehicle
+public abstract class Vehicle(string registrationNumber) : IVehicle
 {
-    private Guid _id = id;
     private string _registrationNumber = registrationNumber;
     private string? _model;
     private string? _color;
 
-    public Vehicle(Guid id,
-                    string registrationNumber,
-                    string? color = null) : this(id, registrationNumber)
+    public Vehicle(string registrationNumber,
+                    string? color = null) : this(registrationNumber)
     {
         _color = color?.ToLower();
     }
 
-    public Vehicle(Guid id,
-                    string registrationNumber,
+    public Vehicle(string registrationNumber,
                     string? color = null,
-                    string? model = null) : this(id, registrationNumber, color)
+                    string? model = null) : this(registrationNumber, color)
     {
         _model = ValidateModel(model);
     }
 
-    public Guid Id => _id;
     public string VehicleType => GetType().Name.ToLower();
     public string RegistrationNumber => _registrationNumber;
     public string? Model { get => _model; }

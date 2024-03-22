@@ -5,24 +5,22 @@ public class Airplane : Vehicle
 
     private int _engineCount;
 
-    public Airplane(Guid id, string registrationNumber, int engineCount) : base(id, registrationNumber)
+    public Airplane(string registrationNumber, int engineCount) : base(registrationNumber)
     {
         _engineCount = engineCount;
     }
 
-    public Airplane(Guid id,
-                string registrationNumber,
+    public Airplane(string registrationNumber,
                 int engineCount,
-                string? color = null) : base(id, registrationNumber, color)
+                string? color = null) : base(registrationNumber, color)
     {
         _engineCount = engineCount;
     }
 
-    public Airplane(Guid id,
-                string registrationNumber,
+    public Airplane(string registrationNumber,
                 int engineCount,
                 string? color = null,
-                string? model = null) : base(id, registrationNumber, color, model)
+                string? model = null) : base(registrationNumber, color, model)
     {
         _engineCount = engineCount;
     }

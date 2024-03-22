@@ -6,25 +6,23 @@ public class Motorcycle : Vehicle
     private int _seatCount;
     private readonly int _wheelCount = 2;
 
-    public Motorcycle(Guid id, string registrationNumber, int seatCount) : base(id, registrationNumber)
+    public Motorcycle(string registrationNumber, int seatCount) : base(registrationNumber)
     {
 
         _seatCount = ValidateSeatCount(seatCount);
     }
 
-    public Motorcycle(Guid id,
-                string registrationNumber,
+    public Motorcycle(string registrationNumber,
                 int seatCount,
-                string? color = null) : base(id, registrationNumber, color)
+                string? color = null) : base(registrationNumber, color)
     {
         _seatCount = ValidateSeatCount(seatCount);
     }
 
-    public Motorcycle(Guid id,
-                string registrationNumber,
+    public Motorcycle(string registrationNumber,
                 int seatCount,
                 string? color = null,
-                string? model = null) : base(id, registrationNumber, color, model)
+                string? model = null) : base(registrationNumber, color, model)
     {
         _seatCount = ValidateSeatCount(seatCount);
     }

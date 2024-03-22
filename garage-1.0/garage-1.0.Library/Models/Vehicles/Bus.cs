@@ -7,31 +7,26 @@ public class Bus : Vehicle
     private readonly int _wheelCount = 4; // TBD! Read from config?
     private string _fuelType;
 
-    public Bus(Guid id, string registrationNumber, string fuelType, int wheelCount) : base(id, registrationNumber)
+    public Bus(string registrationNumber, string fuelType, int wheelCount) : base(registrationNumber)
     {
-        ValidateWheelCount(wheelCount);
-
-
         _fuelType = ValidateFuelType(fuelType);
         _wheelCount = ValidateWheelCount(wheelCount);
     }
 
-    public Bus(Guid id,
-                string registrationNumber,
+    public Bus(string registrationNumber,
                 string fuelType,
                 int wheelCount,
-                string? color = null) : base(id, registrationNumber, color)
+                string? color = null) : base(registrationNumber, color)
     {
         _fuelType = ValidateFuelType(fuelType);
         _wheelCount = ValidateWheelCount(wheelCount);
     }
 
-    public Bus(Guid id,
-                string registrationNumber,
+    public Bus(string registrationNumber,
                 string fuelType,
                 int wheelCount,
                 string? color = null,
-                string? model = null) : base(id, registrationNumber, color, model)
+                string? model = null) : base(registrationNumber, color, model)
     {
         _fuelType = ValidateFuelType(fuelType);
         _wheelCount = ValidateWheelCount(wheelCount);

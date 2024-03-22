@@ -61,7 +61,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
 
                             } while (!electricVerified);
 
-                            vehicleToCreate = new Car(Guid.NewGuid(), registrationNumber!, electric);
+                            vehicleToCreate = new Car(registrationNumber!, electric);
                             break;
                         }
                     case "bus":
@@ -78,7 +78,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
 
                             var fuelType = _io.ReadAndClear()?.ToLower();
 
-                            vehicleToCreate = new Bus(Guid.NewGuid(), registrationNumber!, fuelType, wheelCount);
+                            vehicleToCreate = new Bus(registrationNumber!, fuelType!, wheelCount);
                             break;
                         }
                     case "motorcycle":
@@ -89,7 +89,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
 
                             _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int seatCount);
 
-                            vehicleToCreate = new Motorcycle(Guid.NewGuid(), registrationNumber!, seatCount);
+                            vehicleToCreate = new Motorcycle(registrationNumber!, seatCount);
                             break;
                         }
                     case "boat":
@@ -115,7 +115,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
 
                             } while (!sailVerified);
 
-                            vehicleToCreate = new Boat(Guid.NewGuid(), registrationNumber!, sail);
+                            vehicleToCreate = new Boat(registrationNumber!, sail);
                             break;
                         }
                     case "airplane":
@@ -125,7 +125,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
                                            "[green]---[green]");
                             _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int engineCount);
 
-                            vehicleToCreate = new Airplane(Guid.NewGuid(), registrationNumber!, engineCount);
+                            vehicleToCreate = new Airplane(registrationNumber!, engineCount);
                             break;
                         }
                 }

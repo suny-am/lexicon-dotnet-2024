@@ -54,7 +54,7 @@ new Car(Guid.NewGuid(), "dcp123", true, "red"),
 new Bus(Guid.NewGuid(), "def123", "gasoline", 6, color: "red"),
 new Bus(Guid.NewGuid(), "asaff123", "gasoline", 6),
 new Bus(Guid.NewGuid(), "de4737f123", "gasoline", 6),
-new Motorcycle(Guid.NewGuid(), "ghj123", 2),
+new Motorcycle(Guid.NewGuid(), "ghj123", 2, color: "re31td"),
 new Boat(Guid.NewGuid(), "xyz123", false),
 new Airplane(Guid.NewGuid(), "trt123", 4),
 ];
@@ -65,6 +65,7 @@ foreach (var vehicle in vehicles)
 
 }
 
-var redVehicles = vehicleRepository.Find(v => v.Color == "red");
+vehicleRepository.Add(new Motorcycle(Guid.NewGuid(),)
+
 
 Console.Read();

@@ -4,24 +4,22 @@ public class Boat : Vehicle
 {
     private bool _sail;
 
-    public Boat(Guid id, string registrationNumber, bool sail) : base(id, registrationNumber)
+    public Boat(string registrationNumber, bool sail) : base(registrationNumber)
     {
         _sail = sail;
     }
 
-    public Boat(Guid id,
-                string registrationNumber,
+    public Boat(string registrationNumber,
                 bool sail,
-                string? color = null) : base(id, registrationNumber, color)
+                string? color = null) : base(registrationNumber, color)
     {
         _sail = sail;
     }
 
-    public Boat(Guid id,
-                string registrationNumber,
+    public Boat(string registrationNumber,
                 bool sail,
                 string? color = null,
-                string? model = null) : base(id, registrationNumber, color, model)
+                string? model = null) : base(registrationNumber, color, model)
     {
         _sail = sail;
     }
