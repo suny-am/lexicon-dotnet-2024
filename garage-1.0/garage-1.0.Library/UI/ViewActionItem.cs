@@ -1,8 +1,6 @@
 namespace Garage_1_0.Library.UI;
 
-public class ViewActionItem(string title, Action action) : ViewItem(title)
+public class ViewActionItem(string title, Action action) : ViewItem(title), IViewActionItem
 {
-    private Action? _action = action;
-
-    public Action? Action => _action;
+    public Action? Action { get; } = action;
 }

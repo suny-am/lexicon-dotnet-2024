@@ -26,7 +26,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         } while (_ui.ActiveView == this);
     }
 
-    public void Render()
+    private void Render()
     {
         Console.CursorVisible = false;
         _io.ClearAll();
@@ -46,7 +46,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         }
     }
 
-    public void SetHeader()
+    private void SetHeader()
     {
         ParentUI.Header = "[cyan]Garage 1.0" +
              Environment.NewLine +
@@ -59,7 +59,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
              ;
     }
 
-    public void WatchInput()
+    protected virtual void WatchInput()
     {
         do
         {

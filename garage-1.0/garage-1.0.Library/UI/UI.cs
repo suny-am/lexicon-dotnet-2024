@@ -17,7 +17,7 @@ public class UI : IUI
     public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
     public IEnumerable<IUIView> Views { get => _views; set => _views = value; }
     public IUIView? ActiveView { get => _activeView; set => _activeView = value; }
-    public Garage<ParkingSpot>? SelectedGarage => _selectedGarage;
+    public Garage<ParkingSpot>? SelectedGarage { get => _selectedGarage; set => _selectedGarage = value; }
     public IEnumerable<Garage<ParkingSpot>>? GarageList
     {
         get => _garageList;

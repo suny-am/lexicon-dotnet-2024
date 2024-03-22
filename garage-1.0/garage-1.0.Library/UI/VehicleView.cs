@@ -10,6 +10,11 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
     private GarageRepository<Vehicle> _garageRepository = new();
+    private static readonly ViewActionItem[] _backMenuItems =
+       [
+           new("Continue", Console.WriteLine ),
+           new("Back", _ui.Views.First(v => v.Title == "Garages").Enter)
+       ];
 
     public GarageRepository<Vehicle> GarageRepository => _garageRepository;
 
@@ -28,7 +33,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
         throw new NotImplementedException();
     }
 
-    public static void Back()
+    public static void BackToMainMenu()
     {
         var mainMenu = _ui.Views.First(v => v.Title == "Main Menu");
         mainMenu.Enter();

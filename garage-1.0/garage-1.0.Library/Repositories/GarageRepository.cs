@@ -1,55 +1,50 @@
+using Garage_1_0.Library.Exceptions;
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 
 namespace Garage_1_0.Library.Repositories;
 
-public class GarageRepository<T> : IRepository<IVehicle>
+public class GarageRepository<T> : IRepository<Garage<ParkingSpot>>
 {
-    private Garage<ParkingSpot> _garage = null!;
-    private IEnumerable<ParkingSpot> _parkingSpots = null!;
+    private IEnumerable<Garage<ParkingSpot>> _garageList = [];
 
-    public IVehicle? Add(IVehicle vehicle)
+    public Garage<ParkingSpot>? Add(Garage<ParkingSpot> garageToAdd)
     {
-        ParkingSpot spot;
-        try
+        var garageExists = _garageList.Any(g => g.Name == garageToAdd.Name);
+        if (garageExists)
         {
-            spot = _parkingSpots.Where(s => s.Vehicle is null)
-                                .First();
+            throw new GarageExistsException(garageToAdd.Name);
         }
-        catch (Exception)
-        {
-            throw new RepositoryFullException(vehicle);
-        }
-
-        return spot.Vehicle = vehicle;
+        var garageTempList = _garageList.ToList();
+        garageTempList.Add(garageToAdd);
+        return garageToAdd;
     }
 
-    public IEnumerable<IVehicle?> All()
+    public IEnumerable<Garage<ParkingSpot>> All()
     {
-        return _parkingSpots
-                      .Select(s => s.Vehicle)
-                      .Where(v => v is not null);
+        return _garageList;
     }
 
     public bool Any()
     {
-        return _parkingSpots.Select(s => s.Vehicle).Any();
+        return _garageList.Any();
     }
 
-    public IEnumerable<IVehicle?> Find(Func<IVehicle?, bool> predicate)
+    public IEnumerable<Garage<ParkingSpot>?> Find(Func<Garage<ParkingSpot>, bool> predicate)
     {
-        return _parkingSpots.Select(s => s.Vehicle)
-                            .Where(predicate);
+        return _garageList.Where(predicate);
     }
 
-    public IVehicle? Remove(IVehicle vehicle)
+    public Garage<ParkingSpot>? Remove(string garageToRemoveName)
     {
-        ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
-        if (spot is null)
-        {
-            throw new Exception("TBD Exception here!");
-        }
-        return spot.Vehicle = null;
+        Garage<ParkingSpot>? garage = _garageList
+                                    .FirstOrDefault(g => g.Name == garageToRemoveName)
+                                    ?? throw new GarageNotFoundException(garageToRemoveName);
+
+        var garageListTemp = _garageList.ToList();
+        garageListTemp.Remove(garage);
+        _garageList = garageListTemp;
+        return garage;
     }
 
     // TBD Used when saving to file!
@@ -58,13 +53,11 @@ public class GarageRepository<T> : IRepository<IVehicle>
         throw new NotImplementedException();
     }
 
-    public IVehicle Update(IVehicle vehicle)
+    public Garage<ParkingSpot> Update(Garage<ParkingSpot> garageToUpdate)
     {
-        ParkingSpot? spot = _parkingSpots.FirstOrDefault(s => s.Vehicle?.Id == vehicle.Id);
-        if (spot is null)
-        {
-            throw new Exception("TBD Exception here!");
-        }
-        return spot.Vehicle = vehicle;
+        Garage<ParkingSpot> garage = _garageList
+                                    .FirstOrDefault(g => g.Name == garageToUpdate.Name)
+                                    ?? throw new GarageNotFoundException(garageToUpdate.Name);
+        return garage;
     }
 }

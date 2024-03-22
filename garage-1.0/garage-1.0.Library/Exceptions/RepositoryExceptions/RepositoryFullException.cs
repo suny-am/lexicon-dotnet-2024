@@ -1,5 +1,6 @@
-using Garage_1_0.Library.Exceptions;
 using Garage_1_0.Library.Models.Vehicles;
+
+namespace Garage_1_0.Library.Exceptions.RepositoryExceptions;
 
 public class RepositoryFullException(IVehicle vehicle) : RepositoryException(vehicle)
 {
