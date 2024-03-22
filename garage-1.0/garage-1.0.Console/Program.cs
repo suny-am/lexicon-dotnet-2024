@@ -8,17 +8,17 @@ UI ui = UI.Instance;
 // sub menus
 IEnumerable<IViewItem> garageMenuItems =
 [
-    new ViewActionItem("New", GarageView.New),
-    new ViewActionItem("Load", GarageView.Load),
-    new ViewActionItem("Delete", GarageView.Delete),
-    new ViewActionItem("Back", GarageView.BackToMainMenu)
+    new ViewActionItem<object>("New", GarageView.New, null),
+    new ViewActionItem<object>("Load", GarageView.Load, null),
+    new ViewActionItem<object>("Delete", GarageView.Delete, null),
+    new ViewActionItem<object>("Back", GarageView.BackToMainMenu, null)
 ];
-IEnumerable<IViewItem> vehicleMenuItems = 
+IEnumerable<IViewItem> vehicleMenuItems =
 [
-    new ViewActionItem("Register", VehicleView.Register),
-    new ViewActionItem("Deregister", VehicleView.Deregister),
-    new ViewActionItem("Search", VehicleView.Search),
-    new ViewActionItem("Back", VehicleView.BackToMainMenu)
+    new ViewActionItem<object>("Register", VehicleView.Register, null),
+    new ViewActionItem<object>("Deregister", VehicleView.Deregister, null),
+    new ViewActionItem<object>("Search", VehicleView.Search, null),
+    new ViewActionItem<object>("Back", VehicleView.BackToMainMenu, null)
 ];
 
 UIView garageView = new("Garages", garageMenuItems);
@@ -27,10 +27,10 @@ UIView vehicleView = new("Vehicles", vehicleMenuItems);
 // Main menu
 IEnumerable<IViewItem> viewItems =
 [
-    new ViewActionItem("Garages", garageView.Enter),
-    new ViewActionItem("Vehicles", vehicleView.Enter),
-    new ViewActionItem("Save changes", ui.SaveChanges),
-    new ViewActionItem("Quit", UI.Instance.Quit)
+    new ViewActionItem<object>("Garages", garageView.Enter, null),
+    new ViewActionItem<object>("Vehicles", vehicleView.Enter, null),
+    new ViewActionItem<object>("Save changes", ui.SaveChanges, null),
+    new ViewActionItem<object>("Quit", ui.Quit, null)
 ];
 
 UIView mainMenuView = new("Main Menu", viewItems);

@@ -1,12 +1,14 @@
 
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
+using SuperConsole;
 
 namespace Garage_1_0.Library.UI;
 
 public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIView(title, viewItems)
 {
     private static UI _ui = UI.Instance;
+    private static IO _io = IO.Instance;
     private GarageRepository<Vehicle> _garageRepository = new();
     private static readonly ViewActionItem<object>[] _backMenuItems =
        [
@@ -18,7 +20,7 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
 
     public static void Register()
     {
-        throw new NotImplementedException();
+        _io
     }
 
     public static void Deregister()

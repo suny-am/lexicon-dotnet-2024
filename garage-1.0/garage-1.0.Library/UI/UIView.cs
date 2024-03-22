@@ -6,12 +6,10 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
 {
     private IO _io = IO.Instance;
     private UI _ui = UI.Instance;
-
     private string _title = title;
     private IEnumerable<IViewItem> _viewItems = viewItems;
     private int _activeIndex = 0;
-    private bool _currentView;
-
+    
     public UI ParentUI => _ui;
     public string Title => _title;
     public IEnumerable<IViewItem> ViewItems => _viewItems;
@@ -54,9 +52,12 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
              Environment.NewLine +
                 Title +
              Environment.NewLine +
+             "---" +
+             Environment.NewLine +
+             $"Selected garage: [magenta]{UI.Instance.SelectedGarage?.Name ?? "No garage selected"}[magenta]" +
+             Environment.NewLine +
              "---[cyan]" +
-             Environment.NewLine
-             ;
+             Environment.NewLine;
     }
 
     protected virtual void WatchInput()
@@ -68,9 +69,8 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
 
             if (key is ConsoleKey.Enter)
             {
-                // WIP! Ugly...
-                var activeItem = ViewItems.ElementAt(ActiveIndex) as ViewActionItem;
-                activeItem?.Action?.Invoke();
+                var activeItem = ViewItems.ElementAt(ActiveIndex) as ViewActionItem<object>;
+                activeItem?.Action!.Invoke();
             }
             else if (key is ConsoleKey.DownArrow && ActiveIndex < ViewItems.Count() - 1)
             {

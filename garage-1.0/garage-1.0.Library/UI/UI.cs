@@ -25,7 +25,7 @@ public class UI : IUI
         {
             if (value is not null)
             {
-                _garageList = value;
+                _garageList = value.AsEnumerable();
             }
         }
     }

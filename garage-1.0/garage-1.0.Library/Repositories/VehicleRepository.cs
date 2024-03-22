@@ -63,7 +63,7 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
         return spot.Vehicle = null;
     }
 
-    // TBD Used when saving to file!
+    // TBD Used when saving to file! Maybe not here?
     public void SaveChanges()
     {
         throw new NotImplementedException();

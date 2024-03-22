@@ -1,13 +1,8 @@
 namespace Garage_1_0.Library.UI;
 
-public abstract class ViewItem : IViewItem
+public abstract class ViewItem(string title) : IViewItem
 {
-    private string _title;
+    private string _title = title;
 
-    public ViewItem(string title)
-    {
-        _title = title;
-
-    }
     public string Title => _title;
 }
