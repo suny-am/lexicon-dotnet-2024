@@ -1,6 +1,6 @@
-using System.Collections;
-
 namespace Garage_1_0.Library.Models;
+
+using System.Collections;
 
 public class Garage<T> : IEnumerable, IEnumerable<T> where T : IParkingSpot
 {

@@ -1,8 +1,8 @@
+namespace Garage_1_0.Library.Repositories;
+
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Exceptions.RepositoryExceptions;
-
-namespace Garage_1_0.Library.Repositories;
 
 public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVehicle>
 {

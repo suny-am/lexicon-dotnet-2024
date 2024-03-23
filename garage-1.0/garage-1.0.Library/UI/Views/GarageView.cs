@@ -1,12 +1,21 @@
+namespace Garage_1_0.Library.UI.Views;
+
 using Garage_1_0.Library.Models;
 using SuperConsole;
 
-namespace Garage_1_0.Library.UI.Views;
-
-public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) : UIView(title, viewItems)
+public partial class GarageView(string title) : MainMenuView(title)
 {
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
+    private IEnumerable<IViewItem> _viewMenuItems =
+    [
+        new ViewActionItem<object>("New", New, null),
+        new ViewActionItem<object>("Load", Load, null),
+        new ViewActionItem<object>("Delete", Delete, null),
+        new ViewActionItem<object>("Back", BackToMainMenu, null)
+    ];
+
+    public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
 
     // WIP! Need to make this less bloated; 
     // Garage  Repository and error handling does exist but not used yet...

@@ -1,6 +1,6 @@
-using Garage_1_0.Library.Models.Vehicles;
-
 namespace Garage_1_0.Library.Exceptions.RepositoryExceptions;
+
+using Garage_1_0.Library.Models.Vehicles;
 
 public class RepositoryVehicleExistsException : Exception
 {

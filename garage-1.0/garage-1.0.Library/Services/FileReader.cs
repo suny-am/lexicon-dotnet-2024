@@ -6,18 +6,18 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
 using Garage_1_0.Library.Utilities;
 
-public class FileService : IService
+public class FileReader : IService
 {
     private readonly IConfiguration _configuration;
     private readonly string _filePath;
 
-    public FileService(IConfiguration configuration)
+    public FileReader(IConfiguration configuration)
     {
         _configuration = configuration;
-        _filePath = _configuration.GetRequiredSection("settings:data:fileService:json:filePath").Value!;
+        _filePath = _configuration!.GetRequiredSection("settings:data:fileService:json:filePath").Value!;
     }
 
-    public IConfiguration Configuration => _configuration;
+    public IConfiguration Configuration => _configuration!;
     public string FilePath => _filePath;
 
     public Garage<IParkingSpot>[] LoadData()

@@ -1,7 +1,7 @@
-using Garage_1_0.Library.Exceptions;
-using Garage_1_0.Library.Models;
-
 namespace Garage_1_0.Library.Repositories;
+
+using Garage_1_0.Library.Models;
+using Garage_1_0.Library.Exceptions;
 
 public class GarageRepository<T> : IRepository<Garage<ParkingSpot>>
 {

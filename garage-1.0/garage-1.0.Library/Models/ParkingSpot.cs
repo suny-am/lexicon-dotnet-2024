@@ -1,6 +1,6 @@
-using Garage_1_0.Library.Models.Vehicles;
-
 namespace Garage_1_0.Library.Models;
+
+using Garage_1_0.Library.Models.Vehicles;
 
 public class ParkingSpot() : IParkingSpot
 {

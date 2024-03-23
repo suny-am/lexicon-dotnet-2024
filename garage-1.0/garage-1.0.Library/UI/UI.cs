@@ -1,11 +1,14 @@
-using Garage_1_0.Library.Models;
-using Garage_1_0.Library.UI.Views;
-using SuperConsole;
-
 namespace Garage_1_0.Library.UI;
+
+using Garage_1_0.Library.Models;
+using Garage_1_0.Library.Services;
+using Garage_1_0.Library.UI.Views;
+using Microsoft.Extensions.Configuration;
+using SuperConsole;
 
 public class UI : IUI
 {
+    private static IO _io = IO.Instance;
     private static readonly Lazy<UI> lazy =
         new(() => new UI());
     private IEnumerable<IUIView> _views = [];
@@ -14,6 +17,7 @@ public class UI : IUI
     private string? _header = null;
     private IUIView? _activeView = null;
 
+    public IConfiguration? Configuration { get; set; }
     public static UI Instance { get { return lazy.Value; } }
     public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
     public IEnumerable<IUIView> Views { get => _views; set => _views = value; }
@@ -48,8 +52,42 @@ public class UI : IUI
         }
     }
 
+    public void LoadGarages()
+    {
+        if (Configuration is null)
+        {
+            throw new Exception("No App Configuration found.");
+        }
+        try
+        {
+            FileReader fileReader = new(Configuration);
+            GarageList = fileReader.LoadData();
+        }
+        catch (Exception ex)
+        {
+            _io.Write(ex.Message, foreground: "red", newline: true);
+        }
+    }
+
     public void SaveChanges()
     {
-        throw new NotImplementedException();
+        if (Configuration is null)
+        {
+            throw new Exception("No App Configuration found.");
+        }
+        try
+        {
+            FileWriter fileWriter = new(Configuration);
+            bool success = fileWriter.WriteData();
+            if (success)
+            {
+                _io.WriteEncoded($"[green]Garagelist [blue][Count: {GarageList!.Count()}][blue]successfully saved to file.[green]");
+            }
+        }
+        catch (Exception ex)
+        {
+            _io.Write(ex.Message, foreground: "red", newline: true);
+        }
+        Console.ReadKey();
     }
 }

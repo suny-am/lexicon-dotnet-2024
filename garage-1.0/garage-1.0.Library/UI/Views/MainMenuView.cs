@@ -1,18 +1,18 @@
+namespace Garage_1_0.Library.UI.Views;
+
 using Garage_1_0.Library.Models;
 using SuperConsole;
 
-namespace Garage_1_0.Library.UI.Views;
-
-public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
+public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = null) : IUIView
 {
     private IO _io = IO.Instance;
     private static UI _ui = UI.Instance;
     private string _title = title;
-    private IEnumerable<IViewItem> _viewItems = viewItems;
+    private IEnumerable<IViewItem>? _viewMenuItems = viewMenuItems;
     private static int _activeIndex = 0;
 
     public string Title => _title;
-    public IEnumerable<IViewItem> ViewItems => _viewItems;
+    public virtual IEnumerable<IViewItem>? ViewMenuItems => _viewMenuItems;
     public static int ActiveIndex { get => _activeIndex; set => _activeIndex = value; }
 
     public virtual void Enter()
@@ -38,9 +38,9 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         SetHeader();
         _io.WriteEncoded(_ui.Header ?? "");
 
-        var viewItems = ViewItems.Select((item, index) => new { index, item });
+        var viewMenuItems = ViewMenuItems!.Select((item, index) => new { index, item });
 
-        foreach (var item in viewItems)
+        foreach (var item in viewMenuItems)
         {
             string color = "green";
             if (item.index == ActiveIndex)
@@ -77,10 +77,10 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
 
             if (key is ConsoleKey.Enter)
             {
-                var activeItem = ViewItems.ElementAt(ActiveIndex) as ViewActionItem<object>;
+                var activeItem = ViewMenuItems!.ElementAt(ActiveIndex) as ViewActionItem<object>;
                 activeItem?.Action!.Invoke();
             }
-            else if (key is ConsoleKey.DownArrow && ActiveIndex < ViewItems.Count() - 1)
+            else if (key is ConsoleKey.DownArrow && ActiveIndex < ViewMenuItems!.Count() - 1)
             {
                 ActiveIndex++;
             }
@@ -91,13 +91,13 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         } while (true);
     }
 
-    protected static void WatchInput(ref bool complete, IEnumerable<ViewActionItem<object>> viewItems)
+    protected static void WatchInput(ref bool complete, IEnumerable<ViewActionItem<object>> viewMenuItems)
     {
         var key = Console.ReadKey().Key;
         // prevent index overflow
-        if (viewItems!.Count() < 2) { complete = true; }
+        if (viewMenuItems!.Count() < 2) { complete = true; }
 
-        if (key is ConsoleKey.DownArrow && ActiveIndex < viewItems!.Count() - 1)
+        if (key is ConsoleKey.DownArrow && ActiveIndex < viewMenuItems!.Count() - 1)
         {
             ActiveIndex++;
         }
@@ -107,7 +107,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         }
         else if (key is ConsoleKey.Enter)
         {
-            var targetItem = viewItems!.ElementAt(ActiveIndex);
+            var targetItem = viewMenuItems!.ElementAt(ActiveIndex);
             targetItem.Action!.Invoke();
             complete = true;
         }

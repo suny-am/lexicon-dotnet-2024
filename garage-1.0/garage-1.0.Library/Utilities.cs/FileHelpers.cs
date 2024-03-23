@@ -4,7 +4,6 @@ using Garage_1_0.Library.Models.Vehicles;
 using Newtonsoft.Json.Linq;
 using Garage_1_0.Library.Models;
 
-
 public class FileHelpers
 {
     public static void AddVehicleToSpot(JToken jsonData, ref ParkingSpot spot)

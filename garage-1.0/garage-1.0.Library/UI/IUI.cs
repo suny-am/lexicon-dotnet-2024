@@ -1,6 +1,6 @@
-using Garage_1_0.Library.UI.Views;
-
 namespace Garage_1_0.Library.UI;
+
+using Garage_1_0.Library.UI.Views;
 
 public interface IUI
 {

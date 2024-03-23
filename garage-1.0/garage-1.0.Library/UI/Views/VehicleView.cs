@@ -1,17 +1,24 @@
+namespace Garage_1_0.Library.UI.Views;
 
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
 using SuperConsole;
 
-namespace Garage_1_0.Library.UI.Views;
-
-public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIView(title, viewItems)
+public class VehicleView(string title) : MainMenuView(title)
 {
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
+    private IEnumerable<IViewItem> _viewMenuItems =
+    [
+        new ViewActionItem<object>("Register", Register, null),
+        new ViewActionItem<object>("Deregister", Deregister, null),
+        new ViewActionItem<object>("Search", Search, null),
+        new ViewActionItem<object>("Back", BackToMainMenu, null)
+    ];
     // TBD! need to guard against null value here.
     private static VehicleRepository<IVehicle>? _vehicleRepository = null;
 
+    public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
     public VehicleRepository<IVehicle>? VehicleRepository => _vehicleRepository;
 
     public static void Register()
