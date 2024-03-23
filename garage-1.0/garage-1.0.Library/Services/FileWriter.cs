@@ -16,12 +16,17 @@ public class FileWriter(IConfiguration configuration) : IService
 
     public bool WriteData()
     {
-        IEnumerable<Garage<IParkingSpot>> garages = _ui.GarageList!;
+        IEnumerable<Garage<IParkingSpot>>? garages = _ui.GarageList;
+        if (garages!.Count() is 0)
+        {
+            throw new Exception("No garages currently stored in runtime memory");
+        }
         string garageJsonString = JsonConvert.SerializeObject(garages);
         try
         {
-
-            File.WriteAllText(FilePath, garageJsonString);
+            var formatedGarageDataObject = new { garages = garages!.Select(g => new { g.Name, g.Spots }) };
+            var garagesJsonString = JsonConvert.SerializeObject(formatedGarageDataObject);
+            File.WriteAllText(FilePath, garagesJsonString);
         }
         catch (JsonException)
         {
