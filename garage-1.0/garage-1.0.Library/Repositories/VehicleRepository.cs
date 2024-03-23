@@ -4,12 +4,12 @@ using Garage_1_0.Library.Exceptions.RepositoryExceptions;
 
 namespace Garage_1_0.Library.Repositories;
 
-public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVehicle>
+public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVehicle>
 {
-    private Garage<ParkingSpot> _garage = garage;
-    private IEnumerable<ParkingSpot> _parkingSpots = garage.Spots;
+    private Garage<IParkingSpot> _garage = garage;
+    private IEnumerable<IParkingSpot> _parkingSpots = garage.Spots;
 
-    public Garage<ParkingSpot> Garage
+    public Garage<IParkingSpot> Garage
     {
         get => _garage;
         set
@@ -23,7 +23,7 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
 
     public IVehicle? Add(IVehicle vehicleToAdd)
     {
-        ParkingSpot? spot;
+        IParkingSpot? spot;
         try
         {
             var exists = _parkingSpots.Any(s => s.Vehicle?.RegistrationNumber == vehicleToAdd.RegistrationNumber);
@@ -63,7 +63,7 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
 
     public IVehicle? Remove(string? vehicleRegistrationNumber)
     {
-        ParkingSpot? spot = _parkingSpots
+        IParkingSpot? spot = _parkingSpots
                             .FirstOrDefault(s => s.Vehicle?.RegistrationNumber == vehicleRegistrationNumber)
                             ?? throw new Exception("TBD Exception here!");
         return spot.Vehicle = null;
@@ -77,7 +77,7 @@ public class VehicleRepository<T>(Garage<ParkingSpot> garage) : IRepository<IVeh
 
     public IVehicle Update(IVehicle vehicleToUpdate)
     {
-        ParkingSpot? spot = _parkingSpots
+        IParkingSpot? spot = _parkingSpots
                             .FirstOrDefault(s => s.Vehicle?.RegistrationNumber == vehicleToUpdate.RegistrationNumber)
                             ?? throw new Exception("TBD Exception here!");
         return spot.Vehicle = vehicleToUpdate;

@@ -13,15 +13,15 @@ public class Boat : Vehicle
 
     public Boat(string registrationNumber,
                 bool sail,
-                string? color = null) : base(registrationNumber, color)
+                string? color) : base(registrationNumber, color)
     {
         _sail = ValidateSail(sail);
     }
 
     public Boat(string registrationNumber,
                 bool sail,
-                string? color = null,
-                string? model = null) : base(registrationNumber, color, model)
+                string? color,
+                string? model) : base(registrationNumber, color, model)
     {
         _sail = ValidateSail(sail);
     }

@@ -14,15 +14,15 @@ public class Car : Vehicle
 
     public Car(string registrationNumber,
                 bool electric,
-                string? color = null) : base(registrationNumber, color)
+                string? color) : base(registrationNumber, color)
     {
         _electric = VerifyElectric(electric);
     }
 
     public Car(string registrationNumber,
                 bool electric,
-                string? color = null,
-                string? model = null) : base(registrationNumber, color, model)
+                string? color,
+                string? model) : base(registrationNumber, color, model)
     {
         _electric = VerifyElectric(electric);
     }
@@ -45,9 +45,9 @@ public class Car : Vehicle
 
         stats.Append($"Vehicle Type: {VehicleType} | " +
                     $"Registration Number: {RegistrationNumber} | " +
-                    $"Electric: {isElectric} | ");
-        if (Color is not null) stats.Append($"Color: {Color} | ");
-        if (Model is not null) stats.Append($"Model: {Model} | ");
+                    $"Electric: {isElectric} | " +
+                    $"Color: {Color} | " +
+                    $"Model: {Model} | ");
         return stats.ToString();
     }
 }

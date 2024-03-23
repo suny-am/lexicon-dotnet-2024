@@ -6,7 +6,7 @@ namespace Garage_1_0.Library.Models.Vehicles;
 public class Bus : Vehicle
 {
     private readonly int _wheelCount = 4; // TBD! Read from config?
-    private string _fuelType;
+    private string _fuelType = "gasoline"; // TBD! Read from config?
 
     public Bus(string registrationNumber, string fuelType, int wheelCount) : base(registrationNumber)
     {
@@ -17,7 +17,7 @@ public class Bus : Vehicle
     public Bus(string registrationNumber,
                 string fuelType,
                 int wheelCount,
-                string? color = null) : base(registrationNumber, color)
+                string? color) : base(registrationNumber, color)
     {
         _fuelType = ValidateFuelType(fuelType);
         _wheelCount = ValidateWheelCount(wheelCount);
@@ -26,8 +26,8 @@ public class Bus : Vehicle
     public Bus(string registrationNumber,
                 string fuelType,
                 int wheelCount,
-                string? color = null,
-                string? model = null) : base(registrationNumber, color, model)
+                string? color,
+                string? model) : base(registrationNumber, color, model)
     {
         _fuelType = ValidateFuelType(fuelType);
         _wheelCount = ValidateWheelCount(wheelCount);
@@ -38,7 +38,6 @@ public class Bus : Vehicle
 
     private static int ValidateWheelCount(int? wheelCount)
     {
-
         ArgumentNullException.ThrowIfNull(wheelCount);
         if (int.IsOddInteger((int)wheelCount)) throw new ArgumentException("Wheel count must be an even integer");
         if (wheelCount < 4 || wheelCount > 18) throw new ArgumentOutOfRangeException(nameof(wheelCount));

@@ -114,7 +114,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
     }
 
     // necessary overload
-    protected static void WatchInput(ref bool complete, IEnumerable<ViewActionItem<Garage<ParkingSpot>>> garageItems)
+    protected static void WatchInput(ref bool complete, IEnumerable<IViewActionItem<Garage<IParkingSpot>>> garageItems)
     {
         var key = Console.ReadKey().Key;
         // prevent index overflow
@@ -131,7 +131,7 @@ public class UIView(string title, IEnumerable<IViewItem> viewItems) : IUIView
         else if (key is ConsoleKey.Enter)
         {
             var targetItem = garageItems?.ElementAt(ActiveIndex);
-            Garage<ParkingSpot>? targetGarage = _ui.GarageList!
+            Garage<IParkingSpot>? targetGarage = _ui.GarageList!
                                                 .FirstOrDefault(g => g.Name == targetItem!.Title)
                                                 ?? throw new ArgumentException("Target not found");
             targetItem!.ParamsAction!.Invoke(targetGarage);

@@ -14,15 +14,15 @@ public class Airplane : Vehicle
 
     public Airplane(string registrationNumber,
                 int engineCount,
-                string? color = null) : base(registrationNumber, color)
+                string? color) : base(registrationNumber, color)
     {
         _engineCount = ValidateEngineCount(engineCount);
     }
 
     public Airplane(string registrationNumber,
                 int engineCount,
-                string? color = null,
-                string? model = null) : base(registrationNumber, color, model)
+                string? color,
+                string? model) : base(registrationNumber, color, model)
     {
         _engineCount = engineCount;
     }

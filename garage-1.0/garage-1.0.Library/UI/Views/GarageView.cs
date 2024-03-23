@@ -13,7 +13,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
     public static void New()
     {
         bool operationComplete = false;
-        Garage<ParkingSpot>? garageToCreate = null;
+        Garage<IParkingSpot>? garageToCreate = null;
         do
         {
             Console.CursorVisible = true;
@@ -116,7 +116,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
                 {
                     // TBD! use Garage Repository to create suitable items instead
                     var garageItemList = _ui.GarageList!
-                                   .Select(g => new ViewActionItem<Garage<ParkingSpot>>
+                                   .Select(g => new ViewActionItem<Garage<IParkingSpot>>
                                    (g.Name, null, LoadGarage));
                     _io.Write("Select a garage to load:", foreground: "green", newline: true);
                     foreach (var garage in _ui.GarageList!)
@@ -159,7 +159,7 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
             {
                 // TBD! use Garage Repository to create suitable items instead
                 var garageItemList = _ui.GarageList!
-                                    .Select(g => new ViewActionItem<Garage<ParkingSpot>>
+                                    .Select(g => new ViewActionItem<Garage<IParkingSpot>>
                                     (g.Name, null, DeleteGarage));
                 try
                 {
@@ -218,12 +218,12 @@ public partial class GarageView(string title, IEnumerable<IViewItem> viewItems) 
 
     private static void LoadGarage(object garageToLoad)
     {
-        if (garageToLoad is not Garage<ParkingSpot>)
+        if (garageToLoad is not Garage<IParkingSpot>)
             throw new ArgumentException("Invalid object type for Load operation");
-        _ui.SelectedGarage = (Garage<ParkingSpot>?)garageToLoad;
+        _ui.SelectedGarage = (Garage<IParkingSpot>?)garageToLoad;
     }
 
-    private static void DeleteGarage(Garage<ParkingSpot> garageToDelete)
+    private static void DeleteGarage(Garage<IParkingSpot> garageToDelete)
     {
         if (garageToDelete is null)
             throw new ArgumentException("Invalid object type for Delete operation");

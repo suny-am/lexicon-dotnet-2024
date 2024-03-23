@@ -9,8 +9,8 @@ public class UI : IUI
     private static readonly Lazy<UI> lazy =
         new(() => new UI());
     private IEnumerable<IUIView> _views = [];
-    private IEnumerable<Garage<ParkingSpot>> _garageList = [];
-    private Garage<ParkingSpot>? _selectedGarage = null;
+    private IEnumerable<Garage<IParkingSpot>> _garageList = [];
+    private Garage<IParkingSpot>? _selectedGarage = null;
     private string? _header = null;
     private IUIView? _activeView = null;
 
@@ -18,8 +18,8 @@ public class UI : IUI
     public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
     public IEnumerable<IUIView> Views { get => _views; set => _views = value; }
     public IUIView? ActiveView { get => _activeView; set => _activeView = value; }
-    public Garage<ParkingSpot>? SelectedGarage { get => _selectedGarage; set => _selectedGarage = value; }
-    public IEnumerable<Garage<ParkingSpot>>? GarageList
+    public Garage<IParkingSpot>? SelectedGarage { get => _selectedGarage; set => _selectedGarage = value; }
+    public IEnumerable<Garage<IParkingSpot>>? GarageList
     {
         get => _garageList;
         set
@@ -27,6 +27,7 @@ public class UI : IUI
             if (value is not null)
             {
                 _garageList = value.AsEnumerable();
+                SetSelectedGarage();
             }
         }
     }
@@ -37,6 +38,14 @@ public class UI : IUI
     {
         IO.Instance.ClearAll();
         Environment.Exit(1);
+    }
+
+    private void SetSelectedGarage()
+    {
+        if (SelectedGarage is null && GarageList!.Any())
+        {
+            SelectedGarage = GarageList!.First();
+        }
     }
 
     public void SaveChanges()

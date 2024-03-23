@@ -10,9 +10,9 @@ public class VehicleView(string title, IEnumerable<IViewItem> viewItems) : UIVie
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
     // TBD! need to guard against null value here.
-    private static VehicleRepository<Vehicle>? _vehicleRepository = null;
+    private static VehicleRepository<IVehicle>? _vehicleRepository = null;
 
-    public VehicleRepository<Vehicle>? VehicleRepository => _vehicleRepository;
+    public VehicleRepository<IVehicle>? VehicleRepository => _vehicleRepository;
 
     public static void Register()
     {

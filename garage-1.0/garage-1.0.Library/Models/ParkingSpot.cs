@@ -2,7 +2,7 @@ using Garage_1_0.Library.Models.Vehicles;
 
 namespace Garage_1_0.Library.Models;
 
-public class ParkingSpot()
+public class ParkingSpot() : IParkingSpot
 {
     private IVehicle? _vehicle;
 
