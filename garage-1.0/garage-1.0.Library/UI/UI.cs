@@ -13,6 +13,7 @@ public class UI : IUI
         new(() => new UI());
     private IEnumerable<IUIView> _views = [];
     private IEnumerable<Garage<IParkingSpot>> _garageList = [];
+    private string? _title;
     private Garage<IParkingSpot>? _selectedGarage = null;
     private string? _header = null;
     private IUIView? _activeView = null;
@@ -20,6 +21,7 @@ public class UI : IUI
     public IConfiguration? Configuration { get; set; }
     public static UI Instance { get { return lazy.Value; } }
     public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
+    public string? Title { get => _title; set => _title = value; }
     public IEnumerable<IUIView> Views { get => _views; set => _views = value; }
     public IUIView? ActiveView { get => _activeView; set => _activeView = value; }
     public Garage<IParkingSpot>? SelectedGarage { get => _selectedGarage; set => _selectedGarage = value; }

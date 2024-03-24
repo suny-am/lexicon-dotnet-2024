@@ -3,10 +3,11 @@ namespace Garage_1_0.Library.UI.Views;
 using Garage_1_0.Library.Models;
 using SuperConsole;
 
-public partial class GarageView(string title) : MainMenuView(title)
+public partial class GarageView() : MainMenuView()
 {
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
+    private string _title = "Garages";
     private IEnumerable<IViewItem> _viewMenuItems =
     [
         new ViewActionItem<object>("New", New, null),
@@ -16,6 +17,7 @@ public partial class GarageView(string title) : MainMenuView(title)
     ];
 
     public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
+    public override string Title => _title;
 
     // WIP! Need to make this less bloated; 
     // Garage  Repository and error handling does exist but not used yet...

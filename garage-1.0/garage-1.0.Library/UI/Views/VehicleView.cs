@@ -5,10 +5,11 @@ using Garage_1_0.Library.Repositories;
 using Garage_1_0.Library.Utilities;
 using SuperConsole;
 
-public class VehicleView(string title) : MainMenuView(title)
+public class VehicleView() : MainMenuView()
 {
     private static UI _ui = UI.Instance;
     private static IO _io = IO.Instance;
+    private string _title = "Vehicles";
     private IEnumerable<IViewItem> _viewMenuItems =
     [
         new ViewActionItem<object>("Register", Register, null),
@@ -21,6 +22,7 @@ public class VehicleView(string title) : MainMenuView(title)
 
     public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
     public VehicleRepository<IVehicle>? VehicleRepository { get => _vehicleRepository; set => _vehicleRepository = value; }
+    public override string Title => _title;
 
     public static void Register()
     {

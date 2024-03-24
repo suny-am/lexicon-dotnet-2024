@@ -14,8 +14,8 @@ UI.Instance.Configuration = configuration;
 UI.Instance.LoadGarages();
 
 // sub menus
-GarageView garageView = new("Garages");
-VehicleView vehicleView = new("Vehicles");
+GarageView garageView = new();
+VehicleView vehicleView = new();
 
 // Main menu
 // Was unable to remove this part from the entrypoint due to the references to instance objects
@@ -28,8 +28,12 @@ IEnumerable<IViewItem> viewItems =
     new ViewActionItem<object>("Quit", UI.Instance.Quit, null)
 ];
 
-MainMenuView mainMenuView = new("Main Menu", viewItems);
+// Create entry view and populate with subviews
+MainMenuView mainMenuView = new(viewItems);
 UI.Instance.Views = [mainMenuView, garageView, vehicleView];
+
+// set app header title
+UI.Instance.Title = configuration.GetSection("settings:ui:header").Value ?? "Garage 1.0";
 
 // Select a view as entry point
 mainMenuView.Enter();

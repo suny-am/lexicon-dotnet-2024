@@ -3,15 +3,15 @@ namespace Garage_1_0.Library.UI.Views;
 using Garage_1_0.Library.Models;
 using SuperConsole;
 
-public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = null) : IUIView
+public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIView
 {
     private static IO _io = IO.Instance;
     private static UI _ui = UI.Instance;
-    private string _title = title;
+    private string _title = "Main Menu";
     private IEnumerable<IViewItem>? _viewMenuItems = viewMenuItems;
     private static int _activeIndex = 0;
 
-    public string Title => _title;
+    public virtual string Title => _title;
     public virtual IEnumerable<IViewItem>? ViewMenuItems => _viewMenuItems;
     public static int ActiveIndex { get => _activeIndex; set => _activeIndex = value; }
 
@@ -53,7 +53,7 @@ public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = 
 
     private void SetHeader()
     {
-        _ui.Header = "[cyan]Garage 1.0" +
+        _ui.Header = $"[cyan]{_ui.Title}" +
              Environment.NewLine +
              "---" +
              Environment.NewLine +
@@ -61,7 +61,7 @@ public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = 
              Environment.NewLine +
              "---" +
              Environment.NewLine +
-             $"Selected garage: [magenta]{UI.Instance.SelectedGarage?.Name
+             $"Selected garage: [cyan][magenta]{UI.Instance.SelectedGarage?.Name
              ?? "No garage selected"}[magenta]" +
              Environment.NewLine +
              "[cyan]---[cyan]" +
