@@ -16,7 +16,7 @@ public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVe
         {
             if (typeof(Garage<ParkingSpot>) != value.GetType())
             {
-                throw new RepositoryInvalidDataSourceException(value);
+                throw new RepositoryDataSourceException(value);
             }
         }
     }
@@ -27,11 +27,11 @@ public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVe
         try
         {
             var exists = _parkingSpots.Any(s => s.Vehicle?.RegistrationNumber == vehicleToAdd.RegistrationNumber);
-            if (exists) throw new RepositoryVehicleExistsException(vehicleToAdd);
+            if (exists) throw new VehicleExistsException(vehicleToAdd);
             spot = _parkingSpots.FirstOrDefault(s => s.Vehicle is null);
             if (spot is null) throw new RepositoryFullException(vehicleToAdd);
         }
-        catch (RepositoryVehicleExistsException)
+        catch (VehicleExistsException)
         {
             throw;
         }
@@ -65,8 +65,10 @@ public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVe
     {
         IParkingSpot? spot = _parkingSpots
                             .FirstOrDefault(s => s.Vehicle?.RegistrationNumber == vehicleRegistrationNumber)
-                            ?? throw new Exception("TBD Exception here!");
-        return spot.Vehicle = null;
+                            ?? throw new VehicleNotFoundException(vehicleRegistrationNumber!);
+        var deletedVehicle = spot.Vehicle;
+        spot.Vehicle = null;
+        return deletedVehicle;
     }
 
     // TBD Used when saving to file! Maybe not here?
@@ -79,7 +81,7 @@ public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVe
     {
         IParkingSpot? spot = _parkingSpots
                             .FirstOrDefault(s => s.Vehicle?.RegistrationNumber == vehicleToUpdate.RegistrationNumber)
-                            ?? throw new Exception("TBD Exception here!");
+                            ?? throw new VehicleNotFoundException(vehicleToUpdate.RegistrationNumber);
         return spot.Vehicle = vehicleToUpdate;
     }
 }

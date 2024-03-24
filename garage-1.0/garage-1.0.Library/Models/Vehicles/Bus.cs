@@ -40,7 +40,7 @@ public class Bus : Vehicle
     {
         ArgumentNullException.ThrowIfNull(wheelCount);
         if (int.IsOddInteger((int)wheelCount)) throw new ArgumentException("Wheel count must be an even integer");
-        if (wheelCount < 4 || wheelCount > 18) throw new ArgumentOutOfRangeException(nameof(wheelCount));
+        if (wheelCount < 4 || wheelCount > 18) throw new ArgumentOutOfRangeException(nameof(wheelCount) + " Range: 4-18");
         return (int)wheelCount;
     }
 

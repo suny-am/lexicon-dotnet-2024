@@ -2,11 +2,11 @@ namespace Garage_1_0.Library.Exceptions.RepositoryExceptions;
 
 using Garage_1_0.Library.Models.Vehicles;
 
-public class RepositoryVehicleExistsException : Exception
+public class VehicleExistsException : Exception
 {
     private IVehicle _vehicle;
 
-    public RepositoryVehicleExistsException(IVehicle vehicle)
+    public VehicleExistsException(IVehicle vehicle)
     {
         _vehicle = vehicle;
     }

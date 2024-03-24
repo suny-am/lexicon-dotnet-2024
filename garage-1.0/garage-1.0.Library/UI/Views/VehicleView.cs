@@ -30,118 +30,137 @@ public class VehicleView(string title) : MainMenuView(title)
         {
             try
             {
+                string vehicleType;
+                string vehicleColor = null!;
+                string vehicleModel = null!;
+                string registrationNumber = null!;
+
+                _io.ClearAll();
+                Console.CursorVisible = true;
                 _io.WriteEncoded("[green]What kind of vehicle do you want to register?[green]" +
                           Environment.NewLine +
                           "(Available options: [red]Car[red], [yellow]Bus[yellow], [cyan]Motorcycle[cyan], " +
-                          "[magenta]Boat[magenta], [blue]Airplane[blue]})" +
+                          "[magenta]Boat[magenta], [blue]Airplane[blue])" +
                           Environment.NewLine +
-                          "[green]---[green]");
+                          "[green]---[green]" +
+                          Environment.NewLine);
+                vehicleType = _io.ReadAndClear()?.ToLower()!;
 
-                string? vehicleType = _io.ReadAndClear()?.ToLower();
-                _io.WriteEncoded("[green]Specify the vehicles registration number:[green]" +
-                          Environment.NewLine +
-                          "[green]---[green]");
-                string? registrationNumber = _io.ReadAndClear()?.ToLower();
+                SetVehicleParams(ref registrationNumber, ref vehicleColor, ref vehicleModel);
 
                 // WIP! Allow user to specify extra attributes for vehicle in addition to the required ones
-                switch (vehicleType)
+                try
                 {
-                    case "car":
-                        {
-                            _io.WriteEncoded("[green]Is the car electric (Y/N)?[green]" +
-                                         Environment.NewLine +
-                                        "[green]---[green]");
-                            bool electric = false;
-                            bool electricVerified = false;
-                            do
+                    switch (vehicleType)
+                    {
+                        case "car":
                             {
-                                var key = Console.ReadKey().Key;
-                                if (key is ConsoleKey.Y)
+                                _io.WriteEncoded("[green]Is the car electric (Y/N)?[green]" +
+                                             Environment.NewLine +
+                                            "[green]---[green]" +
+                                             Environment.NewLine);
+                                bool electric = false;
+                                bool electricVerified = false;
+                                do
                                 {
-                                    electric = true;
-                                    electricVerified = true;
-                                }
-                                else if (key is ConsoleKey.N)
-                                {
-                                    electric = false;
-                                    electricVerified = true;
-                                }
+                                    var key = Console.ReadKey().Key;
+                                    if (key is ConsoleKey.Y)
+                                    {
+                                        electric = true;
+                                        electricVerified = true;
+                                    }
+                                    else if (key is ConsoleKey.N)
+                                    {
+                                        electric = false;
+                                        electricVerified = true;
+                                    }
 
-                            } while (!electricVerified);
+                                } while (!electricVerified);
 
-                            vehicleToCreate = new Car(registrationNumber!, electric);
-                            break;
-                        }
-                    case "bus":
-                        {
-                            _io.WriteEncoded("[green]Specify the wheel count of the bus:[green]" +
-                                             Environment.NewLine +
-                                            "[green]---[green]");
-
-                            _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int wheelCount);
-
-                            _io.WriteEncoded("[green]Specify the fuel type of the bus:[green]" +
-                                             Environment.NewLine +
-                                            "[green]---[green]");
-
-                            var fuelType = _io.ReadAndClear()?.ToLower();
-
-                            vehicleToCreate = new Bus(registrationNumber!, fuelType!, wheelCount);
-                            break;
-                        }
-                    case "motorcycle":
-                        {
-                            _io.WriteEncoded("[green]Specify the seat count of the motorcycle:[green]" +
-                                             Environment.NewLine +
-                                            "[green]---[green]");
-
-                            _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int seatCount);
-
-                            vehicleToCreate = new Motorcycle(registrationNumber!, seatCount);
-                            break;
-                        }
-                    case "boat":
-                        {
-                            _io.WriteEncoded("[green]Does the boat have sails? (Y/N):[green]" +
-                                             Environment.NewLine +
-                                            "[green]---[green]");
-                            bool sail = false;
-                            bool sailVerified = false;
-                            do
+                                vehicleToCreate = new Car(registrationNumber!, electric, vehicleColor, vehicleModel);
+                                break;
+                            }
+                        case "bus":
                             {
-                                var key = Console.ReadKey().Key;
-                                if (key is ConsoleKey.Y)
+                                _io.WriteEncoded("[green]Specify the wheel count of the bus:[green]" +
+                                                 Environment.NewLine +
+                                                "[green]---[green]" +
+                                                 Environment.NewLine);
+
+                                _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int wheelCount);
+
+                                _io.WriteEncoded("[green]Specify the fuel type of the bus:[green]" +
+                                                 Environment.NewLine +
+                                                "[green]---[green]" +
+                                                 Environment.NewLine);
+
+                                var fuelType = _io.ReadAndClear()?.ToLower();
+
+                                vehicleToCreate = new Bus(registrationNumber!, fuelType!, wheelCount, vehicleColor, vehicleModel);
+                                break;
+                            }
+                        case "motorcycle":
+                            {
+                                _io.WriteEncoded("[green]Specify the seat count of the motorcycle:[green]" +
+                                                 Environment.NewLine +
+                                                "[green]---[green]" +
+                                                 Environment.NewLine);
+
+                                _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int seatCount);
+
+                                vehicleToCreate = new Motorcycle(registrationNumber!, seatCount, vehicleColor, vehicleModel);
+                                break;
+                            }
+                        case "boat":
+                            {
+                                _io.WriteEncoded("[green]Does the boat have sails? (Y/N):[green]" +
+                                                 Environment.NewLine +
+                                                "[green]---[green]" +
+                                                 Environment.NewLine);
+                                bool sail = false;
+                                bool sailVerified = false;
+                                do
                                 {
-                                    sail = true;
-                                    sailVerified = true;
-                                }
-                                else if (key is ConsoleKey.N)
-                                {
-                                    sail = false;
-                                    sailVerified = true;
-                                }
+                                    var key = Console.ReadKey().Key;
+                                    if (key is ConsoleKey.Y)
+                                    {
+                                        sail = true;
+                                        sailVerified = true;
+                                    }
+                                    else if (key is ConsoleKey.N)
+                                    {
+                                        sail = false;
+                                        sailVerified = true;
+                                    }
 
-                            } while (!sailVerified);
+                                } while (!sailVerified);
 
-                            vehicleToCreate = new Boat(registrationNumber!, sail);
-                            break;
-                        }
-                    case "airplane":
-                        {
-                            _io.WriteEncoded("[green]Specify the engine count of the plane:[green]" +
-                                            Environment.NewLine +
-                                           "[green]---[green]");
-                            _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int engineCount);
+                                vehicleToCreate = new Boat(registrationNumber!, sail, vehicleColor, vehicleModel);
+                                break;
+                            }
+                        case "airplane":
+                            {
+                                _io.WriteEncoded("[green]Specify the engine count of the plane:[green]" +
+                                                Environment.NewLine +
+                                                "[green]---[green]" +
+                                                 Environment.NewLine);
+                                _ = int.TryParse(_io.ReadAndClear()?.ToLower(), out int engineCount);
 
-                            vehicleToCreate = new Airplane(registrationNumber!, engineCount);
-                            break;
-                        }
+                                vehicleToCreate = new Airplane(registrationNumber!, engineCount, vehicleColor, vehicleModel);
+                                break;
+                            }
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    throw;
                 }
                 _vehicleRepository!.Add(vehicleToCreate!);
+                operationComplete = true;
             }
             catch (Exception ex)
             {
-                _io.Write(ex.Message, foreground: "red", newline: true);
+                VehicleRepositoryHelper.ErrorMessage(ex);
             }
         } while (!operationComplete);
 
@@ -154,7 +173,7 @@ public class VehicleView(string title) : MainMenuView(title)
             _io.ClearAll();
             Console.CursorVisible = false;
             _io.WriteEncoded($"[blue]{vehicleToCreate!.GetType().Name} with registration number " +
-                            $"{vehicleToCreate!.RegistrationNumber}[blue] registered in garage" +
+                            $"[blue]{vehicleToCreate!.RegistrationNumber}[blue] registered in garage [magenta]{_ui.SelectedGarage!.Name}[magenta][green]" +
                             Environment.NewLine +
                             "Go back or continue?[green]" +
                             Environment.NewLine +
@@ -182,16 +201,21 @@ public class VehicleView(string title) : MainMenuView(title)
         {
             try
             {
-                _io.WriteEncoded("[green]Specify the registration number of the vehiocle to delete[green]" +
+                _io.ClearAll();
+                Console.CursorVisible = true;
+                _io.WriteEncoded("[green]Specify the registration number of the vehicle to delete[green]" +
                           Environment.NewLine +
-                          "[green]---[green]");
+                          "[green]---[green]" +
+                          Environment.NewLine +
+                          "Reg #: ");
 
                 string? registrationNumber = _io.ReadAndClear()?.ToLower();
-                _vehicleRepository?.Remove(registrationNumber);
+                vehicleToDelete = _vehicleRepository?.Remove(registrationNumber);
+                operationComplete = true;
             }
             catch (Exception ex)
             {
-                _io.Write(ex.Message);
+                VehicleRepositoryHelper.ErrorMessage(ex);
             }
         } while (!operationComplete);
 
@@ -255,7 +279,7 @@ public class VehicleView(string title) : MainMenuView(title)
             }
             catch (ArgumentException ex)
             {
-                _io.Write(ex.Message, foreground: "red", newline: true);
+                VehicleRepositoryHelper.ErrorMessage(ex);
             }
         } while (!operationComplete);
 
@@ -302,7 +326,31 @@ public class VehicleView(string title) : MainMenuView(title)
         } while (!unitComplete);
     }
 
-    public static void BackToMainMenu()
+    private static void SetVehicleParams(ref string registrationNumber, ref string vehicleColor, ref string vehicleModel)
+    {
+
+        _io.WriteEncoded("[green]Specify the vehicles registration number:[green]" +
+                  Environment.NewLine +
+                  "[green]---[green]" +
+                  Environment.NewLine);
+        registrationNumber = _io.ReadAndClear()?.ToLower()!;
+
+        _io.WriteEncoded("[green]Specify the vehicles color (optional):[green]" +
+                  Environment.NewLine +
+                  "[green]---[green]" +
+                  Environment.NewLine);
+        vehicleColor = _io.ReadAndClear()?.ToLower()!;
+        _io.WriteEncoded("[green]Specify the vehicles model (optional):[green]" +
+                  Environment.NewLine +
+                  "[green]---[green]" +
+                  Environment.NewLine);
+        vehicleModel = _io.ReadAndClear()?.ToLower()!;
+
+        if (vehicleModel.Length == 0) vehicleModel = "NA";
+        if (vehicleColor.Length == 0) vehicleColor = "NA";
+    }
+
+    private static void BackToMainMenu()
     {
         var mainMenu = _ui.Views.First(v => v.Title == "Main Menu");
         mainMenu.Enter();

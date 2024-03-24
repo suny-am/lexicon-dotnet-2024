@@ -1,9 +1,12 @@
 namespace Garage_1_0.Library.Utilities;
 
 using Garage_1_0.Library.Models.Vehicles;
+using SuperConsole;
 
 public class VehicleRepositoryHelper
 {
+    private static IO _io = IO.Instance;
+
     public static Dictionary<string, object> ConstructQueryPayload(string[][] flagList)
     {
         Dictionary<string, object> flags = new()
@@ -69,11 +72,13 @@ public class VehicleRepositoryHelper
         bool modelMatch = true;
         bool vehicleTypeMatch = true;
         bool wheelCountMatch = true;
+        bool regNumberMatch = true;
 
         if (vehicle is null) return isMatch;
-        if (vehicle.RegistrationNumber == (string)payload["regnumber"])
-            return true;
-
+        if (payload["regnumber"] is not null)
+        {
+            regNumberMatch = vehicle.RegistrationNumber == (string)payload["regnumber"];
+        }
         if (payload["color"] is not null)
         {
             colorMatch = vehicle.Color == (string)payload["color"];
@@ -88,13 +93,19 @@ public class VehicleRepositoryHelper
         }
         if (payload["wheelcount"] is not null)
         {
-            wheelCountMatch = vehicle.WheelCount == (int)payload["wheelcount"];
+            wheelCountMatch = vehicle.WheelCount == int.Parse((string)payload["wheelcount"]);
         }
 
-        if (colorMatch && modelMatch && vehicleTypeMatch && wheelCountMatch)
+        if (colorMatch && modelMatch && vehicleTypeMatch && wheelCountMatch && regNumberMatch)
             isMatch = true;
 
         return isMatch;
     }
 
+    public static void ErrorMessage(Exception ex)
+    {
+        _io.ClearAll();
+        _io.Write(ex.Message + $"{Environment.NewLine}Press any key to continue.", foreground: "red", newline: true);
+        Console.ReadKey();
+    }
 }
