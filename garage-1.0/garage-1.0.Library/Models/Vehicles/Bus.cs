@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 public class Bus : Vehicle
 {
-    private readonly int _wheelCount = 4; // TBD! Read from config?
+    private readonly int? _wheelCount = 4; // TBD! Read from config?
     private string _fuelType = "gasoline"; // TBD! Read from config?
 
     public Bus(string registrationNumber, string fuelType, int wheelCount) : base(registrationNumber)
@@ -16,7 +16,7 @@ public class Bus : Vehicle
 
     public Bus(string registrationNumber,
                 string fuelType,
-                int wheelCount,
+                int? wheelCount,
                 string? color) : base(registrationNumber, color)
     {
         _fuelType = ValidateFuelType(fuelType);
@@ -25,7 +25,7 @@ public class Bus : Vehicle
 
     public Bus(string registrationNumber,
                 string fuelType,
-                int wheelCount,
+                int? wheelCount,
                 string? color,
                 string? model) : base(registrationNumber, color, model)
     {
@@ -33,7 +33,7 @@ public class Bus : Vehicle
         _wheelCount = ValidateWheelCount(wheelCount);
     }
 
-    public int WheelCount => _wheelCount;
+    public override int? WheelCount => _wheelCount;
     public string FuelType => _fuelType;
 
     private static int ValidateWheelCount(int? wheelCount)
@@ -52,16 +52,5 @@ public class Bus : Vehicle
             throw new ArgumentException($"Invalid argument provided for fuel type: {fuelType}");
         }
         return fuelType;
-    }
-
-    public override string ToString()
-    {
-        StringBuilder stats = new();
-        stats.Append($"Vehicle Type: {VehicleType} | " +
-                    $"Registration Number: {RegistrationNumber} | " +
-                    $"Wheel count: {WheelCount} | ");
-        if (Color is not null) stats.Append($"Color: {Color} | ");
-        if (Model is not null) stats.Append($"Model: {Model} | ");
-        return stats.ToString();
     }
 }

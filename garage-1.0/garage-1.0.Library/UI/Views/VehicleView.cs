@@ -2,6 +2,7 @@ namespace Garage_1_0.Library.UI.Views;
 
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
+using Garage_1_0.Library.Utilities;
 using SuperConsole;
 
 public class VehicleView(string title) : MainMenuView(title)
@@ -16,10 +17,10 @@ public class VehicleView(string title) : MainMenuView(title)
         new ViewActionItem<object>("Back", BackToMainMenu, null)
     ];
     // TBD! need to guard against null value here.
-    private static VehicleRepository<IVehicle>? _vehicleRepository = null;
+    private static VehicleRepository<IVehicle>? _vehicleRepository = new(UI.Instance.GarageList!.First());
 
     public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
-    public VehicleRepository<IVehicle>? VehicleRepository => _vehicleRepository;
+    public VehicleRepository<IVehicle>? VehicleRepository { get => _vehicleRepository; set => _vehicleRepository = value; }
 
     public static void Register()
     {
@@ -226,24 +227,79 @@ public class VehicleView(string title) : MainMenuView(title)
     public static void Search()
     {
         bool operationComplete = false;
+        IEnumerable<IVehicle?> vehicleMatches = [];
 
         do
         {
-            _io.WriteEncoded("[green]Please provide a set of search flags (\"--flag\") to query the Registry." +
-                        Environment.NewLine +
-                      "a registration number flag (--regnumber $myRegNumber) will override all other flags " +
-                        Environment.NewLine +
-                      "Example query: '--wheelcount [red]4[red] --color [red]red[red] --type [red]car[red]'" +
-                        Environment.NewLine +
-                       "---[green]"
-            );
+            try
+            {
+                _io.ClearAll();
+                Console.CursorVisible = true;
+                _io.WriteEncoded("[green]Please provide a set of search flags (\"--flag\") to query the Registry." +
+                            Environment.NewLine +
+                          "a registration number flag (--regnumber $myRegNumber) will override all other flags " +
+                            Environment.NewLine +
+                          "Example query: '[green]--wheelcount [red]4[red] --color [red]red[red] --vehicletype [red]car[red]'" +
+                            Environment.NewLine +
+                           "[green]---[green]" +
+                            Environment.NewLine +
+                            "Query: "
+                );
 
-            string? query = _io.ReadAndClear();
-            string[]? searchParams = query?.Split("--");
-
-
+                string? query = _io.ReadAndClear();
+                if (query?.Length == 0) throw new ArgumentException("Please enter a query.");
+                var searchParams = VehicleRepositoryHelper.GenerateSearchParams(query!);
+                var searchPayload = VehicleRepositoryHelper.ConstructQueryPayload(searchParams);
+                vehicleMatches = _vehicleRepository!.Find(v => VehicleRepositoryHelper.MultiQueryVehicle(v, searchPayload));
+                operationComplete = true;
+            }
+            catch (ArgumentException ex)
+            {
+                _io.Write(ex.Message, foreground: "red", newline: true);
+            }
         } while (!operationComplete);
 
+        bool unitComplete = false;
+        var backMenuItems = BackMenuItems("Search");
+        ActiveIndex = 0;
+
+        do
+        {
+            _io.ClearAll();
+            if (vehicleMatches.Count() is 0)
+            {
+                _io.Write("No matches found for query", foreground: "red", newline: true);
+            }
+            else
+            {
+                _io.Write($"Match count: {vehicleMatches.Count()}", foreground: "red", newline: true);
+                var header = string.Format("[magenta]{0,-10}\t{1,-10}\t{2,-10}\t{3,-10}\t{4,-10}[magenta]",
+                        $"Reg. #",
+                        $"Vehicle Type",
+                        $"Wheels",
+                        $"Color",
+                        $"Model");
+                _io.WriteEncoded(header + Environment.NewLine);
+                foreach (IVehicle? match in vehicleMatches)
+                {
+                    _io.Write(match!.ToString()!, foreground: "blue", newline: true);
+                }
+            }
+
+            _io.Write("---" +
+                    Environment.NewLine +
+                    "Go back or continue?", foreground: "green", newline: true);
+            foreach (var item in backMenuItems)
+            {
+                string color = "green";
+                if (item == backMenuItems.ElementAt(ActiveIndex))
+                {
+                    color = "red";
+                }
+                _io.Write(item.Title, foreground: color, newline: true);
+            }
+            WatchInput(ref unitComplete, backMenuItems);
+        } while (!unitComplete);
     }
 
     public static void BackToMainMenu()
@@ -272,7 +328,7 @@ public class VehicleView(string title) : MainMenuView(title)
         ViewActionItem<object>[] backMenuItems =
       [
             continueOption,
-            new("Back", action: _ui.Views.First(v => v.Title == "Garages").Enter, paramsAction: null)
+            new("Back", action: _ui.Views.First(v => v.Title == "Vehicles").Enter, paramsAction: null)
       ];
         return backMenuItems;
     }

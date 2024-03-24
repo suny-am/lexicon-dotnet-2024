@@ -5,7 +5,7 @@ using SuperConsole;
 
 public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = null) : IUIView
 {
-    private IO _io = IO.Instance;
+    private static IO _io = IO.Instance;
     private static UI _ui = UI.Instance;
     private string _title = title;
     private IEnumerable<IViewItem>? _viewMenuItems = viewMenuItems;
@@ -93,6 +93,7 @@ public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = 
 
     protected static void WatchInput(ref bool complete, IEnumerable<ViewActionItem<object>> viewMenuItems)
     {
+        Console.CursorVisible = false;
         var key = Console.ReadKey().Key;
         // prevent index overflow
         if (viewMenuItems!.Count() < 2) { complete = true; }
@@ -116,6 +117,7 @@ public class MainMenuView(string title, IEnumerable<IViewItem>? viewMenuItems = 
     // necessary overload
     protected static void WatchInput(ref bool complete, IEnumerable<IViewActionItem<Garage<IParkingSpot>>> garageItems)
     {
+        Console.CursorVisible = false;
         var key = Console.ReadKey().Key;
         // prevent index overflow
         if (garageItems!.Count() < 2) { complete = true; }

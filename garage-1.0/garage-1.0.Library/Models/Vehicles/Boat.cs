@@ -33,16 +33,4 @@ public class Boat : Vehicle
         ArgumentNullException.ThrowIfNull(sail);
         return (bool)sail;
     }
-
-    public override string ToString()
-    {
-        StringBuilder stats = new();
-        string hasSail = Sail ? "yes" : "no";
-        stats.Append($"Vehicle Type: {VehicleType} | " +
-                    $"Registration Number: {RegistrationNumber} | " +
-                    $"Sail: {hasSail} | ");
-        if (Color is not null) stats.Append($"Color: {Color} | ");
-        if (Model is not null) stats.Append($"Model: {Model} | ");
-        return stats.ToString();
-    }
 }

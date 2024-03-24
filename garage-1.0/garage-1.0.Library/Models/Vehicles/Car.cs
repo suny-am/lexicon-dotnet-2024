@@ -28,26 +28,11 @@ public class Car : Vehicle
     }
 
     public bool Electric => _electric;
-    public int WheelCount => _wheelCount;
+    public override int? WheelCount => _wheelCount;
 
     private static bool VerifyElectric(bool? electric)
     {
         ArgumentNullException.ThrowIfNull(electric);
         return (bool)electric;
-    }
-
-
-    public override string ToString()
-    {
-        StringBuilder stats = new();
-
-        string isElectric = Electric ? "yes" : "no";
-
-        stats.Append($"Vehicle Type: {VehicleType} | " +
-                    $"Registration Number: {RegistrationNumber} | " +
-                    $"Electric: {isElectric} | " +
-                    $"Color: {Color} | " +
-                    $"Model: {Model} | ");
-        return stats.ToString();
     }
 }
