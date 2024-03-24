@@ -2,7 +2,7 @@ namespace Garage_1_0.Library.Models;
 
 using System.Collections;
 
-public class Garage<T> : IEnumerable, IEnumerable<T> where T : IParkingSpot
+public class Garage<T> : IEnumerable, IEnumerable<T>, IGarage<T> where T : IParkingSpot
 {
     private ParkingSpot[] _spots;
     private string _name;
