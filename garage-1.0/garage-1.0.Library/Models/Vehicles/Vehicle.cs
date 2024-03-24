@@ -1,6 +1,4 @@
 namespace Garage_1_0.Library.Models.Vehicles;
-
-using System.Text;
 using System.Text.RegularExpressions;
 
 public abstract class Vehicle(string registrationNumber) : IVehicle

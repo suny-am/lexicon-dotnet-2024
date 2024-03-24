@@ -24,6 +24,7 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
             Console.ReadKey();
             return;
         }
+        // watch input as long as the view is active
         _ui.ActiveView = this;
         do
         {
@@ -140,5 +141,4 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
             complete = true;
         }
     }
-
 }

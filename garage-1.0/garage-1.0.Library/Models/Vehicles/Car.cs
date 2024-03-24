@@ -1,7 +1,5 @@
 namespace Garage_1_0.Library.Models.Vehicles;
 
-using System.Text;
-
 public class Car : Vehicle
 {
     private bool _electric;
