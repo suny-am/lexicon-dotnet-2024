@@ -1,12 +1,9 @@
 namespace Garage_1_0.Library.UI.Views;
 
 using Garage_1_0.Library.Models;
-using SuperConsole;
 
 public partial class GarageView() : MainMenuView()
 {
-    private static UI _ui = UI.Instance;
-    private static IO _io = IO.Instance;
     private string _title = "Garages";
     private IEnumerable<IViewItem> _viewMenuItems =
     [

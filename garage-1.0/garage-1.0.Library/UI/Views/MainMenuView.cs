@@ -5,12 +5,13 @@ using SuperConsole;
 
 public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIView
 {
-    private static IO _io = IO.Instance;
-    private static UI _ui = UI.Instance;
     private string _title = "Main Menu";
     private IEnumerable<IViewItem>? _viewMenuItems = viewMenuItems;
     private static int _activeIndex = 0;
 
+    protected static UI _ui = UI.Instance;
+    protected static IO _io = IO.Instance;
+    
     public virtual string Title => _title;
     public virtual IEnumerable<IViewItem>? ViewMenuItems => _viewMenuItems;
     public static int ActiveIndex { get => _activeIndex; set => _activeIndex = value; }
@@ -69,7 +70,7 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
              Environment.NewLine;
     }
 
-    protected void WatchInput()
+    private void WatchInput()
     {
         do
         {

@@ -3,12 +3,9 @@ namespace Garage_1_0.Library.UI.Views;
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
 using Garage_1_0.Library.Utilities;
-using SuperConsole;
 
 public class VehicleView() : MainMenuView()
 {
-    private static UI _ui = UI.Instance;
-    private static IO _io = IO.Instance;
     private string _title = "Vehicles";
     private IEnumerable<IViewItem> _viewMenuItems =
     [
