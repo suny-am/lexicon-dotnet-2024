@@ -1,5 +1,6 @@
 namespace Garage_1_0.Library.UI;
 
+using System.Data;
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Services;
 using Garage_1_0.Library.UI.Views;
@@ -11,30 +12,66 @@ public class UI : IUI
     private static IO _io = IO.Instance;
     private static readonly Lazy<UI> lazy =
         new(() => new UI());
-    private IEnumerable<IUIView> _views = [];
-    private IEnumerable<Garage<IParkingSpot>> _garageList = [];
-    private string? _title;
-    private Garage<IParkingSpot>? _selectedGarage = null;
+    private IConfiguration? _configuration = null!;
+    private IEnumerable<IUIView>? _views = [];
+    private IEnumerable<IGarage<IParkingSpot>>? _garageList = [];
+    private string _title = default!;
+    private IGarage<IParkingSpot>? _selectedGarage = null;
     private string? _header = null;
     private IUIView? _activeView = null;
 
-    public IConfiguration? Configuration { get; set; }
     public static UI Instance { get { return lazy.Value; } }
     public static bool InstanceCreated { get { return lazy.IsValueCreated; } }
-    public string? Title { get => _title; set => _title = value; }
-    public IEnumerable<IUIView> Views { get => _views; set => _views = value; }
-    public IUIView? ActiveView { get => _activeView; set => _activeView = value; }
-    public Garage<IParkingSpot>? SelectedGarage { get => _selectedGarage; set => _selectedGarage = value; }
-    public IEnumerable<Garage<IParkingSpot>>? GarageList
+    public IConfiguration? Configuration
+    {
+        get => _configuration;
+        set => _configuration = value;
+    }
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            if (value is null)
+                throw new DataException("invalid data source {value.GeType()}");
+            _title = value;
+        }
+    }
+    public IEnumerable<IUIView>? Views
+    {
+        get => _views;
+        set
+        {
+            if (value is null || _views?.Count() != 0)
+                throw new NullReferenceException("views cannot be reset");
+            _views = value;
+        }
+    }
+    public IUIView? ActiveView
+    {
+        get => _activeView;
+        set
+        {
+            if (value is null)
+                throw new DataException("invalid data source {value.GeType()}");
+            _activeView = value;
+        }
+    }
+    public IGarage<IParkingSpot>? SelectedGarage
+    {
+        get => _selectedGarage;
+        set => _selectedGarage = value;
+
+    }
+    public IEnumerable<IGarage<IParkingSpot>>? GarageList
     {
         get => _garageList;
         set
         {
-            if (value is not null)
-            {
-                _garageList = value.AsEnumerable();
-                SetSelectedGarage();
-            }
+            if (value is null)
+                throw new DataException("invalid data source {value.GeType()}");
+            _garageList = value.AsEnumerable();
+            SetSelectedGarage();
         }
     }
 
@@ -46,7 +83,7 @@ public class UI : IUI
         Environment.Exit(1);
     }
 
-    private void SetSelectedGarage()
+    public void SetSelectedGarage()
     {
         if (SelectedGarage is null && GarageList!.Any())
         {

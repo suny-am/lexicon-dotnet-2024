@@ -127,7 +127,7 @@ public partial class GarageView() : MainMenuView()
                 {
                     // TBD! use Garage Repository to create suitable items instead
                     var garageItemList = _ui.GarageList!
-                                   .Select(g => new ViewActionItem<Garage<IParkingSpot>>
+                                   .Select(g => new ViewActionItem<IGarage<IParkingSpot>>
                                    (g.Name, null, LoadGarage));
                     _io.Write("Select a garage to load:", foreground: "green", newline: true);
                     foreach (var garage in _ui.GarageList!)
@@ -170,7 +170,7 @@ public partial class GarageView() : MainMenuView()
             {
                 // TBD! use Garage Repository to create suitable items instead
                 var garageItemList = _ui.GarageList!
-                                    .Select(g => new ViewActionItem<Garage<IParkingSpot>>
+                                    .Select(g => new ViewActionItem<IGarage<IParkingSpot>>
                                     (g.Name, null, DeleteGarage));
                 try
                 {
@@ -234,7 +234,7 @@ public partial class GarageView() : MainMenuView()
         _ui.SelectedGarage = (Garage<IParkingSpot>?)garageToLoad;
     }
 
-    private static void DeleteGarage(Garage<IParkingSpot> garageToDelete)
+    private static void DeleteGarage(IGarage<IParkingSpot> garageToDelete)
     {
         if (garageToDelete is null)
             throw new ArgumentException("Invalid object type for Delete operation");

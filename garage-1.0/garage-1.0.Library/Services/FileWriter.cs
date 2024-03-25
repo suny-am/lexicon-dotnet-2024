@@ -16,7 +16,7 @@ public class FileWriter(IConfiguration configuration) : IService
 
     public bool WriteData()
     {
-        IEnumerable<Garage<IParkingSpot>>? garages = _ui.GarageList;
+        IEnumerable<IGarage<IParkingSpot>>? garages = _ui.GarageList;
         if (garages!.Count() is 0)
         {
             throw new Exception("No garages currently stored in runtime memory");

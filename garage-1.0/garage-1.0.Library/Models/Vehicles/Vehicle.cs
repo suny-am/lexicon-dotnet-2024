@@ -56,7 +56,7 @@ public abstract class Vehicle(string registrationNumber) : IVehicle
         {
             return "NA";
         }
-        string pattern = @"red|green|blue|yellow|orange|purple|white|black|grey|pink|brown|teal|multi|gold|silver|na";
+        string pattern = @"red$|^green$|^blue$|^yellow$|^orange$|^purple$|^white$|^black$|^grey$|^pink$|^brown$|^teal$|^multi$|^gold$|^silver$|^na$";
         if (Regex.Match(formatedColor, pattern).Success is false) throw new ArgumentException($"Invalid color selection! \"{formatedColor}\"");
         return formatedColor;
     }

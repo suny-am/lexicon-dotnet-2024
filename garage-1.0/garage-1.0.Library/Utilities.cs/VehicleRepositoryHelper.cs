@@ -1,5 +1,6 @@
 namespace Garage_1_0.Library.Utilities;
 
+using System.Text.RegularExpressions;
 using Garage_1_0.Library.Models.Vehicles;
 using SuperConsole;
 
@@ -60,7 +61,13 @@ public class VehicleRepositoryHelper
         var searchParams = queryInput.Split("--")
                               .Where(q => q.Length > 0)
                               .Select(q => q.TrimEnd().Split(" ")).ToArray();
-        if (searchParams.Any(p => p.Length != 2)) throw new ArgumentException("Invalid syntax in search params construction!");
+        if (searchParams.Any(p => p.Length != 2))
+            throw new ArgumentException("Invalid syntax in search params construction!");
+        foreach (var p in searchParams)
+        {
+            if (Regex.Match(p[0], @"^color$|^model$|^vehicletype$|^wheelcount$|^regnumber$").Success is false)
+                throw new ArgumentException($"Invalid flag: {p[0]} ");
+        }
         return searchParams;
     }
 

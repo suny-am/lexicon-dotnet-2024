@@ -4,12 +4,12 @@ using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Exceptions.RepositoryExceptions;
 
-public class VehicleRepository<T>(Garage<IParkingSpot> garage) : IRepository<IVehicle> where T : IVehicle
+public class VehicleRepository<T>(IGarage<IParkingSpot> garage) : IRepository<IVehicle> where T : IVehicle
 {
-    private Garage<IParkingSpot> _garage = garage;
+    private IGarage<IParkingSpot> _garage = garage;
     private IEnumerable<IParkingSpot> _parkingSpots = garage.Spots;
 
-    public Garage<IParkingSpot> Garage
+    public IGarage<IParkingSpot> Garage
     {
         get => _garage;
         set

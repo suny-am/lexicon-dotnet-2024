@@ -116,7 +116,7 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
     }
 
     // necessary overload
-    protected static void WatchInput(ref bool complete, IEnumerable<IViewActionItem<Garage<IParkingSpot>>> garageItems)
+    protected static void WatchInput(ref bool complete, IEnumerable<IViewActionItem<IGarage<IParkingSpot>>> garageItems)
     {
         Console.CursorVisible = false;
         var key = Console.ReadKey().Key;
@@ -134,7 +134,7 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
         else if (key is ConsoleKey.Enter)
         {
             var targetItem = garageItems?.ElementAt(ActiveIndex);
-            Garage<IParkingSpot>? targetGarage = _ui.GarageList!
+            IGarage<IParkingSpot>? targetGarage = _ui.GarageList!
                                                 .FirstOrDefault(g => g.Name == targetItem!.Title)
                                                 ?? throw new ArgumentException("Target not found");
             targetItem!.ParamsAction!.Invoke(targetGarage);
