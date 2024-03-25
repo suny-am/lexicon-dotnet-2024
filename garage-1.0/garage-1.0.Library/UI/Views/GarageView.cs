@@ -60,8 +60,7 @@ public partial class GarageView() : MainMenuView()
             garageList!.Add(garageToCreate);
             _ui.GarageList = garageList;
             operationComplete = true;
-            if (_ui.SelectedGarage is null)
-                _ui.SelectedGarage = garageToCreate;
+            _ui.SelectedGarage ??= garageToCreate;
         }
         while (operationComplete is false);
 

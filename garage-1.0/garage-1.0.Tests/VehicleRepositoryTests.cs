@@ -1,5 +1,6 @@
 namespace garage_1._0.Tests;
 
+using Garage_1_0.Library.Exceptions.RepositoryExceptions;
 using Garage_1_0.Library.Models;
 using Garage_1_0.Library.Models.Vehicles;
 using Garage_1_0.Library.Repositories;
@@ -67,5 +68,29 @@ public class VehicleRepositoryTests
         // ASSERT
         var resultColor = _mockRepository.Object.Find(c => c!.RegistrationNumber == "RTR808").First()!.Color;
         Assert.Equal("purple", resultColor);
+    }
+
+    [Fact]
+    public void Repository_Throws_If_Vehicle_To_Add_Already_Exists()
+    {
+        //ARRANGE
+        _mockRepository.Object.Add(_mockCar);
+
+        // ACT
+        //ASSERT
+        Assert.Throws<VehicleExistsException>(() => _mockRepository.Object.Add(_mockCar));
+    }
+
+    [Fact]
+    public void Repository_Throws_If_Garage_Is_Full()
+    {
+        // ARRANGE
+        Garage<IParkingSpot> secondGarage = new("test", 1);
+        VehicleRepository<IVehicle> vehicleRepository = new(secondGarage);
+        vehicleRepository.Add(new Car("noMoreVehiclesAfterThisOne", false));
+
+        // ACT
+        // ASSERT
+        Assert.Throws<RepositoryFullException>(() => vehicleRepository.Add(_mockCar));
     }
 }

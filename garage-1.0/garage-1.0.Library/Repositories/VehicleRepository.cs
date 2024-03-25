@@ -14,9 +14,9 @@ public class VehicleRepository<T>(IGarage<IParkingSpot> garage) : IRepository<IV
         get => _garage;
         set
         {
-            if (typeof(Garage<ParkingSpot>) != value.GetType())
+            if (value is null)
             {
-                throw new RepositoryDataSourceException(value);
+                throw new RepositoryDataSourceException(value!);
             }
         }
     }
