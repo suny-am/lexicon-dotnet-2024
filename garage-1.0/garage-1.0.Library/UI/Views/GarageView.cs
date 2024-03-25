@@ -223,7 +223,7 @@ public partial class GarageView() : MainMenuView()
 
     public static void BackToMainMenu()
     {
-        var mainMenu = _ui.Views.First(v => v.Title == "Main Menu");
+        var mainMenu = _ui.Views!.First(v => v.Title == "Main Menu");
         mainMenu.Enter();
     }
 
@@ -267,7 +267,7 @@ public partial class GarageView() : MainMenuView()
         ViewActionItem<object>[] backMenuItems =
       [
             continueOption,
-            new("Back", action: _ui.Views.First(v => v.Title == "Garages").Enter, paramsAction: null)
+            new("Back", action: _ui.Views!.First(v => v.Title == "Garages").Enter, paramsAction: null)
       ];
         return backMenuItems;
     }
