@@ -21,9 +21,10 @@ public class VehicleRepositoryTests
     [Fact]
     public void Repository_Adds_Vehicle_To_Garage()
     {
-        // ACT
+        // ARRANGE
         _mockRepository.Object.Add(_mockCar);
 
+        // ACT
         // ASSERT
         Assert.Contains(_mockCar, _mockRepository.Object.All()!);
     }

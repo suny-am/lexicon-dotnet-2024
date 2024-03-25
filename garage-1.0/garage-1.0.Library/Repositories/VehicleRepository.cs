@@ -71,12 +71,6 @@ public class VehicleRepository<T>(IGarage<IParkingSpot> garage) : IRepository<IV
         return deletedVehicle;
     }
 
-    // TBD Used when saving to file! Maybe not here?
-    public void SaveChanges()
-    {
-        throw new NotImplementedException();
-    }
-
     public IVehicle Update(IVehicle vehicleToUpdate)
     {
         IParkingSpot? spot = _parkingSpots

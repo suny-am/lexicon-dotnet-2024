@@ -8,5 +8,4 @@ public interface IRepository<T> where T : class
     public IEnumerable<T?> Find(Func<T?, bool> predicate);
     public bool Any();
     public IEnumerable<T?> All();
-    public void SaveChanges();
 }
