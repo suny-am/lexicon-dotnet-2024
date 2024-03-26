@@ -15,7 +15,7 @@ public class VehicleView() : MainMenuView()
         new ViewActionItem<object>("Back", BackToMainMenu, null)
     ];
     // TBD! need to guard against null value here.
-    private static VehicleRepository<IVehicle>? _vehicleRepository = new(UI.Instance.GarageList!.First());
+    private static VehicleRepository<IVehicle>? _vehicleRepository = new(_ui.GarageList!.First());
 
     public override IEnumerable<IViewItem> ViewMenuItems => _viewMenuItems;
     public VehicleRepository<IVehicle>? VehicleRepository { get => _vehicleRepository; set => _vehicleRepository = value; }

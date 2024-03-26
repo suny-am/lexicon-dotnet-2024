@@ -12,12 +12,13 @@ public class UI : IUI
     private static IO _io = IO.Instance;
     private static readonly Lazy<UI> lazy =
         new(() => new UI());
+
+    private string _title = default!;
+    private string? _header = null;
     private IConfiguration? _configuration = null!;
     private IEnumerable<IUIView>? _views = [];
     private IEnumerable<IGarage<IParkingSpot>>? _garageList = [];
-    private string _title = default!;
     private IGarage<IParkingSpot>? _selectedGarage = null;
-    private string? _header = null;
     private IUIView? _activeView = null;
 
     public static UI Instance { get { return lazy.Value; } }
@@ -57,12 +58,19 @@ public class UI : IUI
             _activeView = value;
         }
     }
+
     public IGarage<IParkingSpot>? SelectedGarage
     {
         get => _selectedGarage;
         set => _selectedGarage = value;
 
     }
+
+    public int? SelectedGarageCapacity
+    {
+        get => _selectedGarage?.Spots.Where(v => v.Vehicle is not null).Count();
+    }
+
     public IEnumerable<IGarage<IParkingSpot>>? GarageList
     {
         get => _garageList;
@@ -120,7 +128,7 @@ public class UI : IUI
             bool success = fileWriter.WriteData();
             if (success)
             {
-                _io.WriteEncoded($"[green]Garagelist [blue][Count: {GarageList!.Count()}][blue]successfully saved to file.[green]");
+                _io.WriteEncoded($"[green]Garagelist [blue][Count: {GarageList!.Count()}] [blue]successfully saved to file.[green]");
             }
         }
         catch (Exception ex)

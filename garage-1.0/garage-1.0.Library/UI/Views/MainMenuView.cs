@@ -11,7 +11,10 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
 
     protected static UI _ui = UI.Instance;
     protected static IO _io = IO.Instance;
-    
+
+    protected static bool _operationComplete;
+    protected static bool _unitComplete;
+
     public virtual string Title => _title;
     public virtual IEnumerable<IViewItem>? ViewMenuItems => _viewMenuItems;
     public static int ActiveIndex { get => _activeIndex; set => _activeIndex = value; }
@@ -63,11 +66,25 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
              Environment.NewLine +
              "---" +
              Environment.NewLine +
-             $"Selected garage: [cyan][magenta]{UI.Instance.SelectedGarage?.Name
-             ?? "No garage selected"}[magenta]" +
+            SelectedGarageInfo() +
              Environment.NewLine +
              "[cyan]---[cyan]" +
              Environment.NewLine;
+    }
+
+    private static string SelectedGarageInfo()
+    {
+        string garageInfo;
+        if (_ui.SelectedGarage is null)
+        {
+            garageInfo = "No garage selected";
+        }
+        else
+        {
+            garageInfo = $"Selected garage: [cyan][magenta]{_ui.SelectedGarage?.Name}[magenta]" +
+                        $" [Capacity: {_ui.SelectedGarageCapacity}/{_ui.SelectedGarage!.VehicleCapacity}]";
+        }
+        return garageInfo;
     }
 
     private void WatchInput()
@@ -93,6 +110,16 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
         } while (true);
     }
 
+    protected static void CancelOperation()
+    {
+        var key = Console.ReadKey().Key;
+        if (key is ConsoleKey.Q)
+        {
+            _operationComplete = true;
+            _unitComplete = true;
+        }
+    }
+
     protected static void WatchInput(ref bool complete, IEnumerable<ViewActionItem<object>> viewMenuItems)
     {
         Console.CursorVisible = false;
@@ -113,6 +140,11 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
             var targetItem = viewMenuItems!.ElementAt(ActiveIndex);
             targetItem.Action!.Invoke();
             complete = true;
+        }
+        else if (key is ConsoleKey.Q)
+        {
+            _operationComplete = true;
+            _unitComplete = true;
         }
     }
 
@@ -140,6 +172,11 @@ public class MainMenuView(IEnumerable<IViewItem>? viewMenuItems = null) : IUIVie
                                                 ?? throw new ArgumentException("Target not found");
             targetItem!.ParamsAction!.Invoke(targetGarage);
             complete = true;
+        }
+        else if (key is ConsoleKey.Q)
+        {
+            _operationComplete = true;
+            _unitComplete = true;
         }
     }
 }

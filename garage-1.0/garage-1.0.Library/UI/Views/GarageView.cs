@@ -20,7 +20,8 @@ public partial class GarageView() : MainMenuView()
     // Garage  Repository and error handling does exist but not used yet...
     public static void New()
     {
-        bool operationComplete = false;
+        _operationComplete = false;
+        _unitComplete = false;
         Garage<IParkingSpot>? garageToCreate = null;
         do
         {
@@ -33,16 +34,17 @@ public partial class GarageView() : MainMenuView()
             {
                 _io.Write("Invalid name input. Name cannot include digits and cannot be empty." +
                         Environment.NewLine +
-                         "Press any key to contiue.", foreground: "red", newline: true);
-                Console.ReadKey();
+                         "Press any key to contiue (press Q to cancel).", foreground: "red", newline: true);
+                CancelOperation();
                 continue;
             }
             // TBD! use Garage Repository
             if (_ui.GarageList!.Any(g => g.Name == name))
             {
                 _io.Write($"Garage with name \"{name}\" already exists." +
-                        "Press any key to contiue.", foreground: "red", newline: true);
-                Console.ReadKey();
+                        Environment.NewLine +
+                        "Press any key to contiue (press Q to cancel).", foreground: "red", newline: true);
+                CancelOperation();
                 continue;
             }
             _io.Write("Select a maximum parking capacity", foreground: "green", newline: true);
@@ -51,51 +53,53 @@ public partial class GarageView() : MainMenuView()
             if (!validCapacity || capacity <= 0)
             {
                 _io.Write("Invalid capacity input. Capacity value must be a positive integer." +
-                        "Press any key to contiue.", foreground: "red", newline: true);
-                Console.ReadKey();
+                        Environment.NewLine +
+                        "Press any key to contiue (press Q to cancel).", foreground: "red", newline: true);
+                CancelOperation();
                 continue;
             }
             garageToCreate = new(name, capacity);
             var garageList = _ui.GarageList!.ToList();
             garageList!.Add(garageToCreate);
             _ui.GarageList = garageList;
-            operationComplete = true;
+            _operationComplete = true;
             _ui.SelectedGarage ??= garageToCreate;
         }
-        while (operationComplete is false);
+        while (_operationComplete is false);
 
-        bool unitComplete = false;
         ActiveIndex = 0;
         var backMenuItems = BackMenuItems("New");
 
-        do
+        if (garageToCreate is not null)
         {
-            _io.ClearAll();
-            Console.CursorVisible = false;
-            _io.WriteEncoded($"[blue]{garageToCreate!.Name}[blue][green] added to garage list." +
-                        Environment.NewLine +
-                        "Go back or continue?[green]" +
-                        Environment.NewLine +
-                        "---" +
-                        Environment.NewLine);
-
-            foreach (var item in backMenuItems)
+            do
             {
-                string color = "green";
-                if (item == backMenuItems.ElementAt(ActiveIndex))
-                {
-                    color = "red";
-                }
-                _io.Write(item.Title, foreground: color, newline: true);
-            }
-            WatchInput(ref unitComplete, backMenuItems);
-        } while (!unitComplete);
+                _io.ClearAll();
+                Console.CursorVisible = false;
+                _io.WriteEncoded($"[blue]{garageToCreate?.Name}[blue][green] added to garage list." +
+                            Environment.NewLine +
+                            "Go back or continue?[green]" +
+                            Environment.NewLine +
+                            "---" +
+                            Environment.NewLine);
 
+                foreach (var item in backMenuItems)
+                {
+                    string color = "green";
+                    if (item == backMenuItems.ElementAt(ActiveIndex))
+                    {
+                        color = "red";
+                    }
+                    _io.Write(item.Title, foreground: color, newline: true);
+                }
+                WatchInput(ref _unitComplete, backMenuItems);
+            } while (!_unitComplete);
+        }
     }
 
     public static void Load()
     {
-        bool operationComplete = false;
+        _operationComplete = false;
         ActiveIndex = 0;
         do
         {
@@ -107,7 +111,7 @@ public partial class GarageView() : MainMenuView()
                 _io.WriteEncoded($"[red]No garages found." +
                                Environment.NewLine +
                                "Press any key to continue[red]");
-                WatchInput(ref operationComplete, backMenuItems);
+                WatchInput(ref _operationComplete, backMenuItems);
             }
             else if (_ui.GarageList!.Count() == 1)
             {
@@ -115,7 +119,7 @@ public partial class GarageView() : MainMenuView()
                 var garage = _ui.GarageList!.First();
                 var garageActionItem = new ViewActionItem<object>(garage.Name, null, LoadGarage);
                 _io.Write(_ui.GarageList!.ElementAt(0).Name, foreground: color, newline: true);
-                WatchInput(ref operationComplete, backMenuItems);
+                WatchInput(ref _operationComplete, backMenuItems);
             }
             else
             {
@@ -125,7 +129,7 @@ public partial class GarageView() : MainMenuView()
                     var garageItemList = _ui.GarageList!
                                    .Select(g => new ViewActionItem<IGarage<IParkingSpot>>
                                    (g.Name, null, LoadGarage));
-                    _io.Write("Select a garage to load:", foreground: "green", newline: true);
+                    _io.Write("Select a garage to load (press Q to cancel):", foreground: "green", newline: true);
                     foreach (var garage in _ui.GarageList!)
                     {
                         color = "green";
@@ -135,22 +139,25 @@ public partial class GarageView() : MainMenuView()
                         }
                         _io.Write(garage.Name, foreground: color, newline: true);
                     }
-                    WatchInput(ref operationComplete, garageItemList);
+                    WatchInput(ref _operationComplete, garageItemList);
                 }
                 catch (ArgumentException ex)
                 {
                     _io.Write(ex.Message, foreground: "red", newline: true);
                 }
             }
-        } while (!operationComplete);
+        } while (!_operationComplete);
     }
 
     public static void Delete()
     {
-        bool operationComplete = false;
+        _operationComplete = false;
+        _unitComplete = false;
         ActiveIndex = 0;
         string targetGarageName = "";
         ViewActionItem<object>[] backMenuItems = BackMenuItems("Delete");
+
+        int garageCount = _ui.GarageList!.Count();
 
         do
         {
@@ -159,8 +166,8 @@ public partial class GarageView() : MainMenuView()
             {
                 _io.WriteEncoded($"[red]No garages found." +
                                 Environment.NewLine +
-                                "Press any key to continue[red]");
-                WatchInput(ref operationComplete, backMenuItems);
+                                "Press any key to continue (press Q to cancel)[red].");
+                WatchInput(ref _operationComplete, backMenuItems);
             }
             else
             {
@@ -170,7 +177,7 @@ public partial class GarageView() : MainMenuView()
                                     (g.Name, null, DeleteGarage));
                 try
                 {
-                    _io.Write("Select a garage to delete:", foreground: "green", newline: true);
+                    _io.Write("Select a garage to delete (press Q to cancel):", foreground: "green", newline: true);
                     foreach (var garage in _ui.GarageList!)
                     {
                         string color = "green";
@@ -186,35 +193,37 @@ public partial class GarageView() : MainMenuView()
                 {
                     _io.Write(ex.Message, foreground: "red", newline: true);
                 }
-                WatchInput(ref operationComplete, garageItemList);
+                WatchInput(ref _operationComplete, garageItemList);
             }
-        } while (!operationComplete);
+        } while (!_operationComplete);
 
-        bool unitComplete = false;
         ActiveIndex = 0;
 
-        do
+        if (_ui.GarageList!.Count() < garageCount)
         {
-            _io.ClearAll();
-            Console.CursorVisible = false;
-            _io.WriteEncoded($"[red]{targetGarageName}[red][green] deleted" +
-                        Environment.NewLine +
-                        "Go back or continue?[green]" +
-                        Environment.NewLine +
-                        "---" +
-                        Environment.NewLine);
-
-            foreach (var item in backMenuItems)
+            do
             {
-                string color = "green";
-                if (item == backMenuItems.ElementAt(ActiveIndex))
+                _io.ClearAll();
+                Console.CursorVisible = false;
+                _io.WriteEncoded($"[red]{targetGarageName}[red][green] deleted" +
+                            Environment.NewLine +
+                            "Go back or continue?[green]" +
+                            Environment.NewLine +
+                            "---" +
+                            Environment.NewLine);
+
+                foreach (var item in backMenuItems)
                 {
-                    color = "red";
+                    string color = "green";
+                    if (item == backMenuItems.ElementAt(ActiveIndex))
+                    {
+                        color = "red";
+                    }
+                    _io.Write(item.Title, foreground: color, newline: true);
                 }
-                _io.Write(item.Title, foreground: color, newline: true);
-            }
-            WatchInput(ref unitComplete, backMenuItems);
-        } while (!unitComplete);
+                WatchInput(ref _unitComplete, backMenuItems);
+            } while (!_unitComplete);
+        }
     }
 
     public static void BackToMainMenu()
