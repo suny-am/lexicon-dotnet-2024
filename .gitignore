@@ -4,4 +4,4 @@
 # .NET
 **/obj/
 **/bin/
-*.sln
+**/.mono/

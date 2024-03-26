@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>garage_1._0</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\garage-1.0.Library\garage-1.0.Library.csproj" />
+    <ProjectReference Include="..\..\utilities\SuperConsole\SuperConsole.csproj" />
+  </ItemGroup>
+
+</Project>
