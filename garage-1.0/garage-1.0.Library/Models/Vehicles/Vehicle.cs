@@ -7,6 +7,12 @@ public abstract class Vehicle(string registrationNumber) : IVehicle
     private string? _model;
     private string? _color;
     private int? _wheelCount;
+    private enum _allowedColors
+    {
+        red, green, blue, yellow, orange, purple,
+        white, black, grey, pink, brown,
+        teal, multi, gold, silver, na
+    };
 
     public Vehicle(string registrationNumber,
                     string? color = "na") : this(registrationNumber)
@@ -54,11 +60,10 @@ public abstract class Vehicle(string registrationNumber) : IVehicle
         string? formatedColor = color?.ToLower();
         if (formatedColor is null)
         {
-            return "NA";
+            return "na";
         }
-        string pattern = @"red$|^green$|^blue$|^yellow$|^orange$|^purple$|" +
-            "^white$|^black$|^grey$|^pink$|^brown$|^teal$|^multi$|^gold$|^silver$|^na$";
-        if (Regex.Match(formatedColor, pattern).Success is false)
+
+        if (Enum.TryParse<_allowedColors>(formatedColor, true, out _) is false)
             throw new ArgumentException($"Invalid color selection! \"{formatedColor}\"");
         return formatedColor;
     }
