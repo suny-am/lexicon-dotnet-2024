@@ -5,51 +5,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Frontend 1</title>
-</head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-<body>
+    header {
+      display: flex;
+    }
+
+    italic {
+      font-style: italic;
+    }
+
+    body {
+      font-family: 'Noto Sans';
+      background-color: black;
+      color: white;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-content: center;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+
+    h3 {
+      color: red;
+    }
+
+    a {
+      color: red;
+      color: red;
+      color: red;
+    }
+
+    a:visited {
+      color: rgb(255, 174, 0);
+    }
+
+    .vertical-list {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-flow: column;
+      list-style: none;
+      justify-content: flex-start;
+    }
+
+    .horizontal-list {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: flex-start;
+      list-style: none;
+
+      li:first-child {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .trailer-container {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+
+      h2 {
+        justify-self: start;
+      }
+    }
+
+    footer {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 0.5em;
+      background-color: rgb(36, 36, 36);
+    }
+  </style>
+</head>
+<bod>
   <header>
     <h1>マクロス・あいおぼえていますか</h1>
     <img src="https://static.wikia.nocookie.net/macross/images/b/b1/SDF-1-1_DYRL.png" alt="映画のタイトル">
   </header>
   <main>
     <div>
-      <span>The best movie ever made, now in theaters once more! <br> The <strong> SDF-1 Macross</strong>, on a voyage away from earth to draw attention of the <br> giant alien Zentraedi forces invading the solar system, takes the <br> crew on a odyssey across space and time. Among them the starcrossed <br> pilot <strong>Hikaru Ichijou</strong>, the singing idol <strong>Lynn Minmei</strong> and <br> the bridge officer <strong>Misa Hasyase</strong>... </span>
+      <span>
+        <italic>The best movie ever made, now in theaters once more!</italic> <br><br> The <strong> SDF-1 Macross</strong>, on a voyage away from earth to draw attention of the <br> giant alien Zentraedi forces invading the solar system, takes the <br> crew on a odyssey across space and time. Among them the starcrossed <br> pilot <strong>Hikaru Ichijou</strong>, the singing idol <strong>Lynn Minmei</strong> and <br> the bridge officer <strong>Misa Hasyase</strong>...
+      </span>
       <br>
       <br>
       <span><strong> The movie premieres in theaters this summer, august 7th!</strong></span>
       <br>
-      <br>
-      <ul>
-        <li>Director: 川森商事</li>
-        <li> Cast: <ul>
-            <li>Lynn Minmei: 飯島真理</li>
-            <li>Hikaru Ichijou: 長谷有洋</li>
-            <li>Misa Hayse: 土井美加</li>
-            <li>Roy Focker: 昭神谷</li>
-            <li>Vrlitwhai 7018: 蟹江栄司</li>
-            <li>Hikaru Ichijou: 速水奨</li>
-            <li>Millia 639: 竹田えり</li>
-          </ul>
-        </li>
+      <h3>Director</h3>
+      <ul class="vertical-list">
+        <li>川森商事</li>
+      </ul>
+      <h3> Cast: </h3>
+      <ul class="vertical-list">
+        <li>Lynn Minmei: 飯島真理</li>
+        <li>Hikaru Ichijou: 長谷有洋</li>
+        <li>Misa Hayse: 土井美加</li>
+        <li>Roy Focker: 昭神谷</li>
+        <li>Vrlitwhai 7018: 蟹江栄司</li>
+        <li>Hikaru Ichijou: 速水奨</li>
+        <li>Millia 639: 竹田えり</li>
       </ul>
     </div>
     <div>
-      <h2>Movie Trailer</h2>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/uY4fme_AvW4?si=td6perwp8LZSwFtb" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="trailer-container">
+        <h2>Movie Trailer</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/uY4fme_AvW4?si=td6perwp8LZSwFtb" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
     </div>
     <br>
-    <span><a href="https://en.wikipedia.org/wiki/Macross:_Do_You_Remember_Love%3F">Movie wiki</a></span>
-    <span>-</span>
-    <span><a href="https://www.hlj.com/search/?Word=macross">Merchandize</a></span>
-    <span>-</span>
-    <span><a href="https://shojikawamori.jp/en/">shojikawamori.jp</a></span>
+    <ul class="horizontal-list">
+      <li style="padding: 0; margin: 0 auto;">
+        <span><a href="https://en.wikipedia.org/wiki/Macross:_Do_You_Remember_Love%3F">Movie wiki</a></span>
+      </li>
+      <li style="padding: 0; margin: 0 auto;">
+        <span><a href="https://www.hlj.com/search/?Word=macross">Merchandize</a></span>
+      </li>
+      <li style="padding: 0; margin: 0 auto;">
+        <span><a href="https://shojikawamori.jp/en/">shojikawamori.jp</a></span>
+      </li>
+    </ul>
   </main>
   <br>
   <footer>
-    <span>copyright 2024 © FS Movie Company. Designed by <a href="https://github.com/suny-am/">suny-am</a>
+    <span>copyright 2024 © <strong>FS Movie Company</strong>. Design by <a href="https://github.com/suny-am/">suny-am</a>
     </span>
   </footer>
-</body>
+  </body>
 
 </html>
